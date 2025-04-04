@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "title": "Edicion",
+    "description": "Edicion de la descripcion",
+    "price": 1,
+    "stock": 1
+  },
+  {
+    "id": "d33220d5-9dd4-4d80-9667-3c3ea8e1697d",
+    "title": "Monitor Portatil",
+    "description": "Monitor Led Portatil",
+    "price": 120000,
+    "stock": 5
+  },
+  {
+    "id": "178bec61-a9e4-441a-9c76-1b1198ef2ee9",
+    "title": "Monitor Portatil",
+    "description": "Monitor Led Portatil",
+    "price": 120000,
+    "stock": 5
+  }
+]
