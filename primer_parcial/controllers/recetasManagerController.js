@@ -127,7 +127,7 @@ const deleteRecetaByName = async(req, res) =>{
         
         if(receta)
         {
-            receta.delete({titulo: req.params.titulo});
+            receta.deleteOne({titulo: req.params.titulo});
             return res.status(200).json({ msg: "Receta eliminada correctamente", receta});
         }   
         else
