@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API REST</title>
+    <link rel="icon" type="image/png" href="img/api.png" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <h1>
+            Bienvenido a mi primera API REST.
+        </h1>
+    </header>
+
+    <main>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-6 col-xl-6">
+                    <h2 class="pt-4">API de Recetas de Cocina</h2>
+                </div>
+            </div>
+            
+            <div class="accordion" id="accordionAPI">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRecetas" aria-expanded="true" aria-controls="collapseRecetas">
+                                ENDPOINTS RECETAS
+                              </button>
+                            </h2>
+                            <div id="collapseRecetas" class="accordion-collapse collapse" data-bs-parent="#accordionAPI">
+                              <div class="accordion-body">
+                                  <div class="row">
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <p>A continuacion, se le detallara los <strong style="font-style: bold;"> endpoints</strong> junto con sus especificaciones para poder acceder a los mismos.</p>
+                                      </div>
+                                  </div>
+                      
+                                  <div class="row d-flex flex-column">
+                                      <div class="col-xs-12 col-md-2 col-xl-2">
+                                              <li style="margin: 5px 0; color: #E94E3D;">GET</li>
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li style="margin: 5px 0; color: #F2C14E;">POST
+                                          </li>
+                                          <pre class="text-start">
+                                              {
+                                                  "titulo": "Titulo de la receta",
+                                                  "categoria": "Categoria de la receta",
+                                                  "ingredientes": {
+                                                                      "nombre": "Nombre del ingrediente",
+                                                                      "cantidad": "Cantidad del ingrediente"
+                                                                  },
+                                                  "instrucciones": [
+                                                                      "1:...",
+                                                                      "2:...",
+                                                                      "3:..."
+                                                                      (Asi sucesivamente, los pasos que considere necesarios)
+                                                                   ]
+                                                  "usuarioAlta": "Su nombre, aunque mas adelante, se completara con el usuario logueado seguramente..."
+                                                  
+                                              }
+                                          </pre>
+                                                  
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li style="margin: 5px 0; color: #A3C585;">GET:/titulo</li>
+                                          <pre>
+                                              {
+                                                  "titulo": "Titulo de la receta"
+                                              }
+                                          </pre>
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li style="margin: 5px 0; color: #3E2F1C;">PUT:/titulo</li>
+                                          <pre>
+                                              {
+                                                  "titulo": "Titulo de la receta"
+                                              }
+                                          </pre>
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li style="margin: 5px 0; color: #E94E3D;">DELETE:/titulo</li>
+                                          <pre>
+                                              {
+                                                  "titulo": "Titulo de la receta"
+                                              }
+                                          </pre>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUsuarios" aria-expanded="true" aria-controls="collapseUsuarios">
+                                ENDPOINTS USUARIOS
+                              </button>
+                            </h2>
+                            <div id="collapseUsuarios" class="accordion-collapse collapse" data-bs-parent="#accordionAPI">
+                              <div class="accordion-body">
+                                  <div class="row">
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <p>A continuacion, se le detallara los <strong style="font-style: bold;"> endpoints</strong> junto con sus especificaciones para poder acceder a los mismos.</p>
+                                      </div>
+                                  </div>
+                      
+                                  <div class="row d-flex flex-column">
+                                      <div class="col-xs-12 col-md-2 col-xl-2">
+                                              <li style="margin: 5px 0; color: #E94E3D;">GET</li>
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li style="margin: 5px 0; color: #F2C14E;">POST
+                                          </li>
+                                          <pre class="text-start">
+                                              {
+                                                  "titulo": "Titulo de la receta",
+                                                  "categoria": "Categoria de la receta",
+                                                  "ingredientes": {
+                                                                      "nombre": "Nombre del ingrediente",
+                                                                      "cantidad": "Cantidad del ingrediente"
+                                                                  },
+                                                  "instrucciones": [
+                                                                      "1:...",
+                                                                      "2:...",
+                                                                      "3:..."
+                                                                      (Asi sucesivamente, los pasos que considere necesarios)
+                                                                   ]
+                                                  "usuarioAlta": "Su nombre, aunque mas adelante, se completara con el usuario logueado seguramente..."
+                                                  
+                                              }
+                                          </pre>
+                                                  
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li style="margin: 5px 0; color: #A3C585;">GET:/titulo</li>
+                                          <pre>
+                                              {
+                                                  "titulo": "Titulo de la receta"
+                                              }
+                                          </pre>
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li style="margin: 5px 0; color: #3E2F1C;">PUT:/titulo</li>
+                                          <pre>
+                                              {
+                                                  "titulo": "Titulo de la receta"
+                                              }
+                                          </pre>
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li style="margin: 5px 0; color: #E94E3D;">DELETE:/titulo</li>
+                                          <pre>
+                                              {
+                                                  "titulo": "Titulo de la receta"
+                                              }
+                                          </pre>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+           
+            </div>
+            
+        </div>
+    </main>
+
+    <footer>
+        <p>Ramirez Cordero Tomas</p>
+        <p>Aplicaciones Hibridas</p>
+        <p>Cruz Jonathan</p>
+        <p>Comisión</p>
+    </footer>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</html>
