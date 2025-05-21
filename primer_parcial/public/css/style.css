@@ -40,3 +40,23 @@ pre{
     color: white!important;
     border-color: #ffff!important;
 }
+
+.get{
+    color: cornflowerblue;
+}
+
+.post{
+    color: darkorchid;
+}
+
+.put{
+    color: orange;
+}
+
+.delete{
+    color: orangered;
+}
+
+li{
+    margin: 5px;
+}

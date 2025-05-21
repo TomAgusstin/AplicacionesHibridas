@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
+import { validarEmail } from '../utils/validaciones.js';
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    nombre: String,
-    email: String,
-    password: String
+    nombre: { type: String, required: [true, 'El nombre es obligatorio'], minlength: [3, 'El nombre debe ser mayor o igual a 3 caracteres.']},
+    email: { type: String, required: true},
+    password: { type: String, required: true, minlength: 8}
 });
 
 const User = mongoose.model('user', userSchema);

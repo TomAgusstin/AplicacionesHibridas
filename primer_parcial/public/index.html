@@ -28,7 +28,7 @@
             
             <div class="accordion" id="accordionAPI">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                               <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRecetas" aria-expanded="true" aria-controls="collapseRecetas">
@@ -44,11 +44,11 @@
                                   </div>
                       
                                   <div class="row d-flex flex-column">
-                                      <div class="col-xs-12 col-md-2 col-xl-2">
-                                              <li style="margin: 5px 0; color: #E94E3D;">GET</li>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                              <li class="get"> Para obtener todas las recetas: GET /recetas</li>
                                       </div>
                                       <div class="col-xs-12 col-md-12 col-xl-12">
-                                          <li style="margin: 5px 0; color: #F2C14E;">POST
+                                          <li class="post">Para insertar recetas: POST /recetas
                                           </li>
                                           <pre class="text-start">
                                               {
@@ -63,7 +63,7 @@
                                                                       "2:...",
                                                                       "3:..."
                                                                       (Asi sucesivamente, los pasos que considere necesarios)
-                                                                   ]
+                                                                   ],
                                                   "usuarioAlta": "Su nombre, aunque mas adelante, se completara con el usuario logueado seguramente..."
                                                   
                                               }
@@ -71,35 +71,84 @@
                                                   
                                       </div>
                                       <div class="col-xs-12 col-md-12 col-xl-12">
-                                          <li style="margin: 5px 0; color: #A3C585;">GET:/titulo</li>
-                                          <pre>
-                                              {
-                                                  "titulo": "Titulo de la receta"
-                                              }
-                                          </pre>
+                                          <li class="get">Obtener receta por ID: GET /recetas/:id</li>
+                                      
                                       </div>
                                       <div class="col-xs-12 col-md-12 col-xl-12">
-                                          <li style="margin: 5px 0; color: #3E2F1C;">PUT:/titulo</li>
-                                          <pre>
-                                              {
-                                                  "titulo": "Titulo de la receta"
-                                              }
-                                          </pre>
+                                          <li class="get">Obtener receta por Categoria: GET /recetas/categoria/:categoria</li>
+                                      
                                       </div>
                                       <div class="col-xs-12 col-md-12 col-xl-12">
-                                          <li style="margin: 5px 0; color: #E94E3D;">DELETE:/titulo</li>
-                                          <pre>
-                                              {
-                                                  "titulo": "Titulo de la receta"
-                                              }
-                                          </pre>
+                                          <li class="get">Obtener receta por Autor: GET /recetas/autor/:autor</li>
+                                      
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li class="get">Obtener receta por Titulo: GET /recetas/titulo/:titulo</li>
+                                      
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li class="put">Actualizar receta por ID: PUT /recetas/:id</li>
+                                      
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li class="delete">Eliminar receta por ID: DELETE /recetas/:id</li>
+                                         
                                       </div>
                                   </div>
                               </div>
                             </div>
                           </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePuntuaciones" aria-expanded="true" aria-controls="collapsePuntuaciones">
+                                ENDPOINTS PUNTUACIONES
+                              </button>
+                            </h2>
+                            <div id="collapsePuntuaciones" class="accordion-collapse collapse" data-bs-parent="#accordionAPI">
+                              <div class="accordion-body">
+                                  <div class="row">
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <p>A continuacion, se le detallara los <strong style="font-style: bold;"> endpoints</strong> junto con sus especificaciones para poder acceder a los mismos.</p>
+                                      </div>
+                                  </div>
+                      
+                                  <div class="row d-flex flex-column">
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                              <li class="get">GET /puntuaciones</li>
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li class="post">POST /puntuaciones
+                                          </li>
+                                          <pre class="text-start">
+                                              {
+                                                  "puntaje": "1-5",
+                                                  "descripcion": "Breve descripcion si se requiere",
+                                                  "recetaId": "Id de la receta"
+                                              }
+                                          </pre>
+                                                  
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li class="get">GET /puntuaciones/:id</li>
+                                          
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li class="put">PUT /puntuaciones/:id</li>
+                                       
+                                      </div>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                          <li class="delete">DELETE /puntuaciones/:id</li>
+                                         
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    
+                    <div class="col-md-4">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                               <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUsuarios" aria-expanded="true" aria-controls="collapseUsuarios">
@@ -115,55 +164,32 @@
                                   </div>
                       
                                   <div class="row d-flex flex-column">
-                                      <div class="col-xs-12 col-md-2 col-xl-2">
-                                              <li style="margin: 5px 0; color: #E94E3D;">GET</li>
+                                      <div class="col-xs-12 col-md-12 col-xl-12">
+                                              <li class="get">GET /users</li>
                                       </div>
                                       <div class="col-xs-12 col-md-12 col-xl-12">
-                                          <li style="margin: 5px 0; color: #F2C14E;">POST
+                                          <li class="post">POST /users
                                           </li>
                                           <pre class="text-start">
                                               {
-                                                  "titulo": "Titulo de la receta",
-                                                  "categoria": "Categoria de la receta",
-                                                  "ingredientes": {
-                                                                      "nombre": "Nombre del ingrediente",
-                                                                      "cantidad": "Cantidad del ingrediente"
-                                                                  },
-                                                  "instrucciones": [
-                                                                      "1:...",
-                                                                      "2:...",
-                                                                      "3:..."
-                                                                      (Asi sucesivamente, los pasos que considere necesarios)
-                                                                   ]
-                                                  "usuarioAlta": "Su nombre, aunque mas adelante, se completara con el usuario logueado seguramente..."
-                                                  
+                                                  "nombre": "Nombre",
+                                                  "email": "email@email.com",
+                                                  "password": "password"
                                               }
                                           </pre>
                                                   
                                       </div>
                                       <div class="col-xs-12 col-md-12 col-xl-12">
-                                          <li style="margin: 5px 0; color: #A3C585;">GET:/titulo</li>
-                                          <pre>
-                                              {
-                                                  "titulo": "Titulo de la receta"
-                                              }
-                                          </pre>
+                                          <li class="get">GET /users/:id</li>
+                                          
                                       </div>
                                       <div class="col-xs-12 col-md-12 col-xl-12">
-                                          <li style="margin: 5px 0; color: #3E2F1C;">PUT:/titulo</li>
-                                          <pre>
-                                              {
-                                                  "titulo": "Titulo de la receta"
-                                              }
-                                          </pre>
+                                          <li class="put">PUT /users/:id</li>
+                                       
                                       </div>
                                       <div class="col-xs-12 col-md-12 col-xl-12">
-                                          <li style="margin: 5px 0; color: #E94E3D;">DELETE:/titulo</li>
-                                          <pre>
-                                              {
-                                                  "titulo": "Titulo de la receta"
-                                              }
-                                          </pre>
+                                          <li class="delete">DELETE /users/:id</li>
+                                         
                                       </div>
                                   </div>
                               </div>
@@ -181,7 +207,7 @@
         <p>Ramirez Cordero Tomas</p>
         <p>Aplicaciones Hibridas</p>
         <p>Cruz Jonathan</p>
-        <p>Comisión</p>
+        <p>DWT4AV</p>
     </footer>
 </body>
 

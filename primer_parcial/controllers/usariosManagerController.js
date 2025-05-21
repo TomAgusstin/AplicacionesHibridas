@@ -55,14 +55,14 @@ const setUsuario = async(  req,  res) =>{
         }
         const passwordHash = await bcrypt.hash( password, salt);
         
-        new Usuario( {nombre, email, password: passwordHash}).save(); 
+        await new Usuario( {nombre, email, password: passwordHash}).save(); 
    
          res.status(202).json({msg: "Usuario creado con exito." } );
     } 
     catch (error) 
     {
         console.error({error});
-         res.status(500).json({error: "Error intentando crear el usuario."});
+         res.status(500).json({error: "Error intentando crear el usuario." + error});
     }
 }
 
