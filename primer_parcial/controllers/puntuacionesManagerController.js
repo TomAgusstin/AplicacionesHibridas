@@ -78,7 +78,7 @@ const updatePuntuacionesById = async(  req,  res) => {
     try 
     {
         const puntuaciones =  req.body;
-        const PuntuacionesNuevo = await puntuaciones.findByIdAndUpdate(req.params.id, puntuaciones, { new: true});
+        const PuntuacionesNuevo = await Puntuaciones.findByIdAndUpdate(req.params.id, puntuaciones, { new: true});
         
         if (PuntuacionesNuevo)
         {
