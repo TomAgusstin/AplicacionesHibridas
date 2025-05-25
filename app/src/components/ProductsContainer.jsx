@@ -1,10 +1,10 @@
 import React from "react";
 
-function ProductsContainer(props)
+function ProductsContainer({children})
 {
     return (
         <div className="productContainer">
-              {props.children}
+              {children}
         </div>
     )
 }
