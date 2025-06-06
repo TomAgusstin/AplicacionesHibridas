@@ -2,6 +2,7 @@ import express from "express";
 import routerAPI from "./routes/index.js";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cors from "cors";
 
 // console.log(chalk.blue('Holaaaa'));
 dotenv.config();
@@ -26,6 +27,7 @@ db.once('open', () => {
 //Middleware
 app.use(express.json());
 app.use(express.static('public'));
+app.use(cors());
 
 // const product = new ProductManager();
 
