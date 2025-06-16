@@ -1,9 +1,9 @@
-import recetasRouter from "./recetasRouter.js";
+import autosRouter from "./autosRouter.js";
 import userRoutes from "./usersRouter.js";
-import puntuacionesRoutes from "./puntuacionesRouter.js";
+import categoriasRoutes from "./categoriasRouter.js";
 
 export default function routerAPI(app){
-    app.use('/recetas', recetasRouter);
+    app.use('/autos', autosRouter);
     app.use('/users', userRoutes);
-    app.use('/puntuaciones', puntuacionesRoutes);
+    app.use('/categorias', categoriasRoutes);
 }

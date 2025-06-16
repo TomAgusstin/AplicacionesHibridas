@@ -1,10 +1,10 @@
-function Header()
+function Header(data)
 {
 
     return(
         <>
             <header>
-                <h1>Header</h1>
+                <h1>{data.titulo}</h1>
             </header>
         </>
         

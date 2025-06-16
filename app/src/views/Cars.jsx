@@ -1,63 +1,77 @@
 import Card from '../components/Card'
 import ProductsContainer from '../components/ProductsContainer'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import TableCars from '../components/TableCars'
+import { useNavigate } from 'react-router-dom'
 
-function Cars()
-{
-
-  const [product, setProduct] = useState({
-    nombre: '',
-    price: '',
-    description: ''
-  });
-  
-  const [ products, setProducts ] = useState( [
-    { id:1, name: 'Celular Samsung', description: 'Celular Samsung A16 Dual Sim', price: 50000 },
-    { id:2, name: 'Celular Motorola', description: 'Celular Motorola G15 Dual Sim', price: 75000 },
-    { id:3, name: 'Mouse', description: 'Mouse gamer', price: 10000 }
-  ])
-
-    function addProduct(name)
-  {
-    alert(
-      'Padre recibe el ' + name
-    )
-  }
+function Cars() {
+  const endpoint = 'http://localhost:3000/autos';
+  const navigate = useNavigate();
+  const [autos, setAutos] = useState([]);
 
 
-  function nuevoProducto(e){
-      e.preventDefault();
-    const id = products.length + 1;
-    const name = product.name;
-    const price = product.price;
-    const description = product.description;
-    const nuevo =  { id, name, price, description };
-    setProducts( [...products, nuevo] );
+  async function getCars() {
+    try {
 
-    setProduct({...product, nombre: '', price: '', description: ''})
-  }
+      const response = await fetch(endpoint);
 
-
-    return(
-        <>
-                <h2>Cars</h2>
-
-
-                <ProductsContainer>
-      {
-         products.map( product =>  (
-            <Card
-              key={ product.id}
-              add={ addProduct } 
-              name={product.name} 
-              description={product.description} 
-              price={product.price}
-              />) 
-            )
+      if (!response) {
+        console.error('Error obteniendo los autos');
+        return;
       }
-    
 
-    <form action="" onSubmit={nuevoProducto}>
+      const { data } = await response.json();
+      console.table(data);
+      setAutos(data);
+    }
+    catch (ex) {
+      console.error(ex);
+    }
+  };
+
+  useEffect(() => {
+    getCars();
+  }, {})
+  return (
+    <>
+      <h2>Cars</h2>
+
+      <hr />
+      <div>
+        <button type='button' onClick={() => navigate('/nuevoAuto')}>Agregar auto</button>
+      </div>
+      <ProductsContainer>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Categoria</th>
+              <th>Alicuota</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {autos != null &&
+              autos.map(a => (
+                <TableCars
+                  key={a._id}
+                  marca={a.marca}
+                  modelo={a.modelo}
+                  alicuota={a.alicuota}
+                  _id={a._id}
+
+                // price={product.price}
+                />)
+              )
+            }
+          </tbody>
+        </table>
+
+
+
+        {/* <form action="" onSubmit={nuevoProducto}>
 
       <div>
         <label htmlFor="">Nombre</label>
@@ -73,12 +87,12 @@ function Cars()
       </div>
 
       <button type='submit'>Guardar</button>
-    </form>
+    </form> */}
 
-    </ProductsContainer>
-        </>
-        
-    )
+      </ProductsContainer>
+    </>
+
+  )
 };
 
 export default Cars;

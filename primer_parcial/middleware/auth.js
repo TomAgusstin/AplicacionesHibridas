@@ -20,7 +20,7 @@ export const validacionToken = (req, res, next) =>{
         {
             res.status(403).json({msg: "Token invalido."});
         }
-        req.body.userId = decoded.id;
+        // req.body.userId = decoded.id;
     });
     next();
 }
