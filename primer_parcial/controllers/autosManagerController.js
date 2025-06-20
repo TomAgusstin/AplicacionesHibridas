@@ -47,6 +47,7 @@ const addAuto = async (req, res) => {
         if (auto) {
             return res.status(404).json({ msg: "El auto ya existe." });
         }
+        img = req.file.path;  
         
         const agregado = new Auto({ marca, modelo, categoriaId, infoPrecio, alicuota, img, alt }).save();
         agregado ?  res.status(202).json({ msg: 'Auto agregada exitosamente', data: agregado }) : res.status(404).json({ msg: 'No se pudo agregar el auto', data: agregado })
@@ -157,7 +158,7 @@ const updateAutoById = async (req, res) => {
             auto.categoriaId = categoriaId;
             auto.infoPrecio = infoPrecio;
             auto.alicuota = alicuota;
-            auto.img = img;
+            auto.img = req.file.path;
             auto.alt = alt;
 
             await auto.save();

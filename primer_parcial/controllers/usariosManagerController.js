@@ -88,10 +88,12 @@ const deleteUsuarioById = async( req,  res) => {
 
 const updateUsuarioById = async(  req,  res) => {
     try 
-    {
-        const user =  req.body;
+    {   const { nombre, email, password } =  req.body;
+        // const user =  req.body;
+        const passwordHash = await bcrypt.hash( password, salt);
+        const user = {nombre: nombre, email: email, password: passwordHash};
         const usuarioNuevo = await Usuario.findByIdAndUpdate(req.params.id, user, { new: true});
-        
+
         if (usuarioNuevo)
         {
              res.status(200).json({ msg: "Usuario actualizado con exito.", data: usuarioNuevo});
