@@ -1,6 +1,9 @@
 import { useState, useEffect, useContext } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import ProductsContainer from '../components/ProductsContainer';
+import ButtonPrimary from '../components/ButtonPrimary';
+import Alert from '../components/Alert';
 
 function Category()
 {
@@ -11,6 +14,10 @@ const [cat, setCat] = useState([]);
 const navigate = useNavigate();
 const {logout} = useContext(AuthContext);
 const token = localStorage.getItem('token');
+const location = useLocation();
+const mensaje = location.state?.mensaje;
+const tipo = location.state?.tipo;
+const [error, setError] = useState(null);
 
 async function getCategorias(){
     try{
@@ -56,6 +63,7 @@ async function deleteCat(id){
 
             const {data} = await response.json();
             console.table(data);
+            setError("Categoria eliminada con exito");
             getCategorias();
     }
     catch(er)
@@ -70,24 +78,40 @@ useEffect(  () => {
     getCategorias();
 }, token)
 
+const handleDelete = (id) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta categoría?')) {
+        deleteCat(id);
+    }
+};
+
     return(
         <>
                 <h2>Panel de Categorias</h2>
                 <hr />
-            <button onClick={ () => { navigate('/nuevaCategoria')}}> Nueva categoria</button>
-           {
-            token != null && 
-            (
-                <button onClick={ () => { logout() }}> Cerrar sesion</button>
-            )
-            } 
-            
-            
-                <table>
+                <ButtonPrimary
+                    to="/nuevaCategoria"
+                    label="Nueva Categoria"
+                />
+            {mensaje && <Alert
+                                tipoAlerta={tipo}
+                                texto={mensaje}
+                                dismissAlert={mensaje}
+            />}
+              {error && 
+                            <Alert
+                                tipoAlerta="alert-danger"
+                                texto={error}
+                                dismissAlert={setError}
+                            />
+                            }
+            <ProductsContainer>
+<table>
                     <thead>
                         <tr>
                             <th>Titulo</th>
                             <th>Estado</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
 
@@ -99,10 +123,12 @@ useEffect(  () => {
                                     <td>{c.titulo}</td>
                                     <td>{c.estado}</td>
                                     <td>
-                                    <button onClick={() => {navigate(`/editarCategoria/${c._id}`)}} >E</button>
+                                    <button className='btn btn-primary' onClick={() => {navigate(`/editarCategoria/${c._id}`)}} >
+                                        <i className='bi bi-pen-fill'></i>
+                                    </button>
                                     </td>
                                     <td>
-                                    <button onClick={() => deleteCat(c._id)}>D</button>
+                                    <button className='btn btn-primary'  onClick={() => handleDelete(c._id)}>  <i className='bi bi-trash-fill'></i></button>
                                     </td>
                                 </tr>
                                 ))
@@ -110,6 +136,8 @@ useEffect(  () => {
                         
                     </tbody>
                 </table>
+            </ProductsContainer>
+                
 
         </>
         

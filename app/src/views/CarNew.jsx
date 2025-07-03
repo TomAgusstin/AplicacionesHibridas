@@ -1,31 +1,39 @@
 import { useState, useEffect } from 'react'
 
 function CarNew() {
-
     const endPoint = 'http://127.0.0.1:3000/autos';
     const endPointCategorias = 'http://127.0.0.1:3000/categorias';
-    const [car, setCar] = useState({ marca: '', modelo: '', categoriaId: '', infoPrecio: [{ precio: '', tipoCuota: '' }], alicuota: '', img: '', alt: '' });
-    const [cat, setCategorias] = useState([])
+    const [car, setCar] = useState({ 
+        marca: '', 
+        modelo: '', 
+        categoriaId: '', 
+        infoPrecio: [{ precio: '', tipoCuota: '' }], 
+        alicuota: '', 
+        img: '', 
+        alt: '' 
+    });
+    const [cat, setCategorias] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState({ type: '', text: '' });
 
-    async function getCategorias()
-    {   
-         try {
-        
-              const response = await fetch(endPointCategorias);
-        
-              if (!response) {
-                console.error('Error obteniendo los autos');
+    async function getCategorias() {   
+        try {
+            const response = await fetch(endPointCategorias);
+            
+            if (!response.ok) {
+                console.error('Error obteniendo las categorías');
+                setMessage({ type: 'error', text: 'Error al cargar las categorías' });
                 return;
-              }
-        
-              const { data } = await response.json();
-              console.table(data);
-              setCategorias(data);
             }
-            catch (ex) {
-              console.error(ex);
-            }
-
+            
+            const { data } = await response.json();
+            console.table(data);
+            setCategorias(data);
+        }
+        catch (ex) {
+            console.error(ex);
+            setMessage({ type: 'error', text: 'Error de conexión al cargar categorías' });
+        }
     }
 
     function handlerChange(e) {
@@ -34,6 +42,11 @@ function CarNew() {
 
         setCar({ ...car, [key]: value });
         console.log({ car });
+        
+        // Limpiar mensajes cuando el usuario empiece a escribir
+        if (message.text) {
+            setMessage({ type: '', text: '' });
+        }
     }
 
     function handleInfoPrecioChange(index, field, value) {
@@ -50,12 +63,17 @@ function CarNew() {
     }
 
     function removeInfoPrecio(index) {
-        const updatedInfoPrecio = car.infoPrecio.filter((_, i) => i !== index);
-        setCar({ ...car, infoPrecio: updatedInfoPrecio });
+        if (car.infoPrecio.length > 1) {
+            const updatedInfoPrecio = car.infoPrecio.filter((_, i) => i !== index);
+            setCar({ ...car, infoPrecio: updatedInfoPrecio });
+        }
     }
 
     async function addCar(event) {
         event.preventDefault();
+        setLoading(true);
+        setMessage({ type: '', text: '' });
+
         const options = {
             method: 'POST',
             headers: {
@@ -63,113 +81,334 @@ function CarNew() {
             },
             body: JSON.stringify(car)
         }
+
         try {
             const response = await fetch(endPoint, options);
 
-            if (!response) {
-                alert('Error al guardar auto');
+            if (!response.ok) {
+                const errorData = await response.json();
+                setMessage({ 
+                    type: 'error', 
+                    text: errorData.message || 'Error al guardar el auto' 
+                });
                 return;
             }
 
             const { data } = await response.json();
             console.table(data);
-            // getCars();
+            
+            // Resetear formulario
+            setCar({ 
+                marca: '', 
+                modelo: '', 
+                categoriaId: '', 
+                infoPrecio: [{ precio: '', tipoCuota: '' }], 
+                alicuota: '', 
+                img: '', 
+                alt: '' 
+            });
+            
+            setMessage({ 
+                type: 'success', 
+                text: '¡Auto agregado exitosamente!' 
+            });
 
-            setCar({ ...car, marca: '', modelo: '', categoriaId: '', infoPrecio: [ { precio: '', tipoCuota: '' }], alicuota: '', img: '', alt: '' })
-        }
-        catch (er) {
+        } catch (er) {
             console.error(er);
+            setMessage({ 
+                type: 'error', 
+                text: 'Error de conexión. Intenta nuevamente.' 
+            });
+        } finally {
+            setLoading(false);
         }
     }
 
- useEffect(() => {
-            getCategorias();
-          }, {})
+    useEffect(() => {
+        getCategorias();
+    }, []);
           
     return (
-        <>
-            <h2>Nuevo auto</h2>
+        <div className="container-fluid p-4">
+            <div className="row justify-content-center">
+                <div className="col-12 col-lg-8">
+                    <div className="card shadow-sm w-100">
+                        <div className="card-header bg-primary text-white">
+                            <h4 className="card-title mb-0">
+                                <i className="bi bi-car-front me-2"></i>
+                                Agregar Nuevo Vehículo
+                            </h4>
+                        </div>
+                        <div className="card-body">
+                            {/* Mensajes de estado */}
+                            {message.text && (
+                                <div className={`alert ${message.type === 'success' ? 'alert-success' : 'alert-danger'} alert-dismissible fade show`} role="alert">
+                                    <i className={`bi ${message.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'} me-2`}></i>
+                                    {message.text}
+                                    <button 
+                                        type="button" 
+                                        className="btn-close" 
+                                        onClick={() => setMessage({ type: '', text: '' })}
+                                    ></button>
+                                </div>
+                            )}
 
-            <hr />
-            <form onSubmit={addCar}>
-                <label htmlFor="marca">Marca</label>
-                <input
-                    name='marca'
-                    value={car.marca}
-                    type="text"
-                    onChange={handlerChange}
-                />
+                            <form onSubmit={addCar}>
+                                {/* Información Básica */}
+                                <div className="row mb-4">
+                                    <div className="col-12">
+                                        <h5 className="text-muted border-bottom pb-2 mb-3">
+                                            <i className="bi bi-info-circle me-2"></i>
+                                            Información Básica
+                                        </h5>
+                                    </div>
+                                    
+                                    <div className="col-md-6 mb-3">
+                                        <label htmlFor="marca" className="form-label fw-semibold">
+                                            Marca <span className="text-danger">*</span>
+                                        </label>
+                                        <input
+                                            id="marca"
+                                            name="marca"
+                                            value={car.marca}
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Ej: Toyota, Ford, Chevrolet"
+                                            onChange={handlerChange}
+                                            required
+                                            disabled={loading}
+                                        />
+                                    </div>
+                                    
+                                    <div className="col-md-6 mb-3">
+                                        <label htmlFor="modelo" className="form-label fw-semibold">
+                                            Modelo <span className="text-danger">*</span>
+                                        </label>
+                                        <input
+                                            id="modelo"
+                                            name="modelo"
+                                            value={car.modelo}
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Ej: Corolla, Focus, Cruze"
+                                            onChange={handlerChange}
+                                            required
+                                            disabled={loading}
+                                        />
+                                    </div>
+                                    
+                                    <div className="col-md-6 mb-3">
+                                        <label htmlFor="categoria" className="form-label fw-semibold">
+                                            Categoría <span className="text-danger">*</span>
+                                        </label>
+                                        <select 
+                                            id="categoria"
+                                            name="categoriaId"
+                                            className="form-select"
+                                            onChange={handlerChange}
+                                            value={car.categoriaId}
+                                            required
+                                            disabled={loading}
+                                        >
+                                            <option value="">Seleccionar categoría...</option>
+                                            {cat != null && cat.map(c => (
+                                                <option key={c._id} value={c._id}>
+                                                    {c.titulo} / {c.estado}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    
+                                    <div className="col-md-6 mb-3">
+                                        <label htmlFor="alicuota" className="form-label fw-semibold">
+                                            Alícuota
+                                        </label>
+                                        <input
+                                            id="alicuota"
+                                            name="alicuota"
+                                            value={car.alicuota}
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Ej: 21%, 10.5%"
+                                            onChange={handlerChange}
+                                            disabled={loading}
+                                        />
+                                    </div>
+                                </div>
 
-                <label htmlFor="modelo">Modelo</label>
-                <input
-                    name='modelo'
-                    value={car.modelo}
-                    onChange={handlerChange}
-                    type="text"
-                />
+                                {/* Información de Precios */}
+                                <div className="row mb-4">
+                                    <div className="col-12">
+                                        <h5 className="text-muted border-bottom pb-2 mb-3">
+                                            <i className="bi bi-currency-dollar me-2"></i>
+                                            Información de Precios
+                                        </h5>
+                                    </div>
+                                    
+                                    <div className="col-12">
+                                        {car.infoPrecio.map((info, index) => (
+                                            <div key={index} className="mb-3 border-light">
+                                                <div className="">
+                                                    <div className="row align-items-end">
+                                                        <div className="col-md-5 mb-2">
+                                                            <label className="form-label fw-semibold">Tipo de Cuota</label>
+                                                            <input
+                                                                type="text"
+                                                                className="form-control"
+                                                                placeholder="Ej: Contado, 12 cuotas, 24 cuotas"
+                                                                value={info.tipoCuota}
+                                                                onChange={(e) => handleInfoPrecioChange(index, 'tipoCuota', e.target.value)}
+                                                                disabled={loading}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-5 mb-2">
+                                                            <label className="form-label fw-semibold">Precio</label>
+                                                            <div className="input-group">
+                                                                <span className="input-group-text">$</span>
+                                                                <input
+                                                                    type="number"
+                                                                    className="form-control"
+                                                                    placeholder="0.00"
+                                                                    value={info.precio}
+                                                                    onChange={(e) => handleInfoPrecioChange(index, 'precio', e.target.value)}
+                                                                    min="0"
+                                                                    step="0.01"
+                                                                    disabled={loading}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-md-2 mb-2">
+                                                            <button 
+                                                                type="button" 
+                                                                className="btn btn-outline-danger w-100"
+                                                                onClick={() => removeInfoPrecio(index)}
+                                                                title="Eliminar cuota"
+                                                                
+                                                            >
+                                                                <i className="bi bi-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                        
+                                        <button 
+                                            type="button" 
+                                            className="btn btn-outline-primary"
+                                            onClick={addInfoPrecio}
+                                            disabled={loading}
+                                        >
+                                            <i className="bi bi-plus-circle me-2"></i>
+                                            Agregar Cuota
+                                        </button>
+                                    </div>
+                                </div>
 
-                <label htmlFor="categoria">Categoria</label>
-                {/* Tengo que hacer un select que me recopile el idCategoria y me muestra el nombre */}
-                <select onChange={handlerChange} name='categoriaId'>
-                    <option value=''></option>
-                    {cat != null && cat.map(
-                        c=>(
-                            <option key={c._id} value={c._id}>{c.titulo} / {c.estado}</option>
-                        )
-                        
-                    )
-                }
-                </select>
-                    
+                                {/* Información de Imagen */}
+                                <div className="row mb-4">
+                                    <div className="col-12">
+                                        <h5 className="text-muted border-bottom pb-2 mb-3">
+                                            <i className="bi bi-image me-2"></i>
+                                            Información de Imagen
+                                        </h5>
+                                    </div>
+                                    
+                                    <div className="col-md-8 mb-3">
+                                        <label htmlFor="img" className="form-label fw-semibold">
+                                            URL de Imagen
+                                        </label>
+                                        <input
+                                            id="img"
+                                            name="img"
+                                            value={car.img}
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="/src/img/imagen.jpg"
+                                            onChange={handlerChange}
+                                            disabled={loading}
+                                        />
+                                        <div className="form-text">
+                                            Ingresa la URL completa de la imagen del vehículo
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="col-md-4 mb-3">
+                                        <label htmlFor="alt" className="form-label fw-semibold">
+                                            Texto Alternativo
+                                        </label>
+                                        <input
+                                            id="alt"
+                                            name="alt"
+                                            value={car.alt}
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Descripción de la imagen"
+                                            onChange={handlerChange}
+                                            disabled={loading}
+                                        />
+                                        <div className="form-text">
+                                            Para accesibilidad
+                                        </div>
+                                    </div>
+                                    
+                                </div>
 
-                <label>Info. Precio</label>
-                {car.infoPrecio.map((info, index) => (
-                    <div key={index} style={{ marginBottom: '1rem' }}>
-                        <input
-                            type="text"
-                            placeholder="Tipo de Cuota"
-                            value={info.tipoCuota}
-                            onChange={(e) => handleInfoPrecioChange(index, 'tipoCuota', e.target.value)}
-                        />
-                        <input
-                            type="number"
-                            placeholder="Precio"
-                            value={info.precio}
-                            onChange={(e) => handleInfoPrecioChange(index, 'precio', e.target.value)}
-                        />
-                        <button type="button" onClick={() => removeInfoPrecio(index)}>🗑</button>
+                                {/* Botones de Acción */}
+                                <div className="row">
+                                    <div className="col-12">
+                                        <hr />
+                                                  <a href='/usuarios' type='button' className='btn btn-secondary mt-4 float-start'>
+                    Volver
+                </a>
+                                        <div className="d-flex justify-content-end gap-2">
+                                            <button 
+                                                type="button" 
+                                                className="btn btn-secondary"
+                                                onClick={() => {
+                                                    setCar({ 
+                                                        marca: '', 
+                                                        modelo: '', 
+                                                        categoriaId: '', 
+                                                        infoPrecio: [{ precio: '', tipoCuota: '' }], 
+                                                        alicuota: '', 
+                                                        img: '', 
+                                                        alt: '' 
+                                                    });
+                                                    setMessage({ type: '', text: '' });
+                                                }}
+                                                disabled={loading}
+                                            >
+                                                <i className="bi bi-arrow-clockwise me-2"></i>
+                                                Limpiar
+                                            </button>
+                                            <button 
+                                                type="submit" 
+                                                className="btn btn-primary px-4"
+                                                disabled={loading}
+                                            >
+                                                {loading ? (
+                                                    <>
+                                                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                                        Guardando...
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <i className="bi bi-check-lg me-2"></i>
+                                                        Agregar Vehículo
+                                                    </>
+                                                )}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                ))}
-                <button type="button" onClick={addInfoPrecio}>+ Agregar Cuota</button>
-
-                <label htmlFor="alicuota">Alicuota</label>
-                <input
-                    name='alicuota'
-                    value={car.alicuota}
-                    type="text"
-                    onChange={handlerChange}
-                />
-
-                <label htmlFor="img">Imagen</label>
-                <input
-                    name='img'
-                    value={car.img}
-                    type="text"
-                    onChange={handlerChange}
-                />
-                <label htmlFor="alt">Texto de imagen</label>
-                <input
-                    name='alt'
-                    value={car.alt}
-                    type="text"
-                    onChange={handlerChange}
-                />
-
-                <button type='submit'>Agregar auto</button>
-            </form>
-        </>
-
-    )
-};
+                </div>
+            </div>
+        </div>
+    );
+}
 
 export default CarNew;

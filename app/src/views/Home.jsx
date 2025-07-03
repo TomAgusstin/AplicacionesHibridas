@@ -3,46 +3,87 @@ import Card from '../components/Card'
 import { useEffect, useState } from 'react';
 import Table from '../components/Table'
 
-function Home()
-{
+function Home() {
 
-const [ autos, setAutos ] = useState([]);
-const endpoint = 'http://localhost:3000/autos';
-async function getCars(){
-    try{
+    const [autos, setAutos] = useState([]);
+    const endpoint = 'http://localhost:3000/autos';
+    async function getCars() {
+        try {
             const response = await fetch(endpoint);
-            
-            if(!response)
-            {
+
+            if (!response) {
                 console.error('Error obteniendo los autos');
                 return;
             }
 
-            const {data} = await response.json();
+            const { data } = await response.json();
             console.table(data);
             setAutos(data);
-    }
-    catch(ex)
-    {
-        console.error(ex);
-    }
-};
+        }
+        catch (ex) {
+            console.error(ex);
+        }
+    };
 
-useEffect(  () => {
-    getCars();
-}, []  )
-    return(
+    useEffect(() => {
+        getCars();
+    }, [])
+    return (
         <>
-                <h2>Inicio</h2>
+            <h2>Inicio</h2>
 
-                
-    <ProductsContainer>
+            <div className="mt-1 d-lg-flex justify-content-center">
+                <div className="col-xs-12 col-md-4 col-lg-4 m-auto">
+                    <h2 className="text-center">
+                        Sobre nosotros
+                    </h2>
+                    <p>
+                        Autorun S.R.L. se enfoca en brindar a los clientes la oportunidad de adquirir
+                        vehículos 0km a través de venta convencional usados y adjudicados, con un respaldo y soporte administrativo
+                        durante todo el proceso.
+                    </p>
+                </div>
 
-       
+                <div className="col-xs-12  col-md-4 col-lg-4 m-auto">
+                    <h2 className="text-center">
+                        ¡Te compramos el auto!
+                    </h2>
+                    <p>
+                        Ofrecemos la opción de comprar vehículos usados directamente, utilizando la experiencia de un especialista
+                        para evaluar y verificar la calidad de las unidades usadas.
+                      
+                    </p>
+                </div>
 
-    </ProductsContainer>
+            </div>
+
+            <div className="">
+                <h3 className='col-xs-12 col-md-12 col-xl-12 text-center mb-4'>
+                    ¿Cual se adapta a vos?
+                </h3>
+
+                <ProductsContainer>
+
+                    {
+                        autos != null && autos.map(
+                            a => <Card
+                                key={a._id}
+                                marca={a.marca}
+                                modelo={a.modelo}
+                                categoria={a.categoriaId}
+                                infoPrecio={a.infoPrecio}
+                                alicuota={a.alicuota}
+                                img={a.img}
+                                alt={a.alt}
+                            />
+                        )
+                    }
+
+                </ProductsContainer>
+            </div>
+
         </>
-        
+
     )
 };
 

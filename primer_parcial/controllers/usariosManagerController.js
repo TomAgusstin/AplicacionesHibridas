@@ -47,7 +47,10 @@ const setUsuario = async(  req,  res) =>{
     try 
     {
         const { nombre, email, password } =  req.body;
-
+        if(!password)
+        {
+            return res.status(401).json({msg: "Error, la contrasena es obligatoria."})
+        }
         const user = await Usuario.findOne({ email: email });
         if( user )
         {
@@ -62,7 +65,7 @@ const setUsuario = async(  req,  res) =>{
     catch (error) 
     {
         console.error({error});
-         res.status(500).json({error: "Error intentando crear el usuario." + error});
+         res.status(500).json({msg: "Error intentando crear el usuario." + error});
     }
 }
 
@@ -89,6 +92,20 @@ const deleteUsuarioById = async( req,  res) => {
 const updateUsuarioById = async(  req,  res) => {
     try 
     {   const { nombre, email, password } =  req.body;
+
+         if(!password)
+        {
+            return res.status(401).json({msg: "Error, la contrasena es obligatoria."})
+        }
+        else if(!email)
+        {
+            return res.status(401).json({msg: "Error, el email es obligatorio."})
+        }
+        else if(!nombre)
+        {
+            return res.status(401).json({msg: "Error, el nombre es obligatorio."})
+        }
+
         // const user =  req.body;
         const passwordHash = await bcrypt.hash( password, salt);
         const user = {nombre: nombre, email: email, password: passwordHash};
@@ -127,10 +144,11 @@ const auth = async(  req,  res ) => {
     
     const data = {
         id: user._id,
-        email: user.email
+        email: user.email,
+        nombre: user.nombre
     }
     // Generamos el token
     const token = jwt.sign( data, secret_key, { expiresIn: "1h"});
-     res.json({msg: "Usuario logueado con exito.", token: token});
+     res.json({msg: "Usuario logueado con exito.", token: token, data});
 }
 export { getUsuarios, getUsuarioById, setUsuario, deleteUsuarioById, updateUsuarioById, auth };

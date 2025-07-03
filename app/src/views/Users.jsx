@@ -1,7 +1,9 @@
 import { useState, useEffect, useContext } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-
+import ProductsContainer from '../components/ProductsContainer';
+import ButtonPrimary from '../components/ButtonPrimary';
+import Alert from '../components/Alert';
 // let users = [{id: 1, nombre: 'Tom', email: 'asd@gmail.com'},
 //                 {id:2, nombre: 'Lu', email: 'asdasd@gmail.com'}
 // ]
@@ -15,6 +17,11 @@ const [users, setUsers] = useState([]);
 const navigate = useNavigate();
 const {logout} = useContext(AuthContext);
 const token = localStorage.getItem('token');
+const [error, setError] = useState(null);
+
+const location = useLocation();
+const mensaje = location.state?.mensaje;
+const tipo = location.state?.tipo;
 
 async function getUsers(){
     try{
@@ -26,10 +33,16 @@ async function getUsers(){
             }
             const response = await fetch(endPoint, options);
             
-            if(!response)
-            {
-                console.error('Error obteniendo los datos');
-                return;
+             if (!response.ok) {
+                if (response.status === 403) {
+                    localStorage.removeItem('token');
+                    throw new Error('Acceso denegado. No tenés permiso para ver esta información (su sesión expiro o no tiene permiso).');
+                } else if (response.status === 401) {
+                    localStorage.removeItem('token');
+                    throw new Error('No estás autorizado. Iniciá sesión nuevamente.');
+                } else {
+                    throw new Error(`Error inesperado: ${response.status}`);
+                }
             }
 
             const {data} = await response.json();
@@ -38,7 +51,8 @@ async function getUsers(){
     }
     catch(ex)
     {
-        console.error(error);
+        console.error(ex);
+        setError(ex.message);
     }
 };
 
@@ -60,8 +74,9 @@ async function deleteUser(id){
 
             const {data} = await response.json();
             console.table(data);
-            getUsers();
 
+            setError("Usuario eliminado con exito");
+            getUsers();// mensaje = ;
             // setUser({...user, nombre: '', email: '', password:''})
     }
     catch(er)
@@ -70,31 +85,40 @@ async function deleteUser(id){
     }
 }
 
-
-
 useEffect(  () => {
     getUsers();
 }, token)
 
+const handleDelete = (id) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+        deleteUser(id);
+    }
+};
     return(
         <>
                 <h2>Panel de Usuarios</h2>
                 <hr />
-            <button onClick={ () => { navigate('/nuevoUsuario')}}> Nuevo Usuario</button>
-           {
-            token != null && 
-            (
-                <button onClick={ () => { logout() }}> Cerrar sesion</button>
-            )
-            } 
-            
-            
-                <table>
+                    <ButtonPrimary
+                    to="/nuevoUsuario"
+                    label="Nuevo usuario"
+                />
+            {error && <Alert
+                                tipoAlerta="alert-danger"
+                                texto={error}
+                                dismissAlert={setError}
+                            />}
+            {mensaje && <Alert
+                                tipoAlerta={tipo}
+                                texto={mensaje}
+                            />}                
+            <ProductsContainer>
+                 <table>
                     <thead>
                         <tr>
                             <th>Nombre</th>
                             <th>Email</th>
-                            <th>Acciones</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
 
@@ -106,10 +130,12 @@ useEffect(  () => {
                                     <td>{user.nombre}</td>
                                     <td>{user.email}</td>
                                     <td>
-                                    <button onClick={() => {navigate(`/actualizarUsuario/${user._id}`)}} >E</button>
+                                    <button className='btn btn-primary' onClick={() => {navigate(`/actualizarUsuario/${user._id}`)}} >
+                                        <i className='bi bi-pen-fill'></i>
+                                    </button>
                                     </td>
                                     <td>
-                                    <button onClick={() => deleteUser(user._id)}>D</button>
+                                    <button className='btn btn-primary' onClick={() => handleDelete(user._id)}><i className='bi bi-trash-fill'></i></button>
                                     </td>
                                 </tr>
                                 ))
@@ -117,6 +143,8 @@ useEffect(  () => {
                         
                     </tbody>
                 </table>
+            </ProductsContainer>
+               
 
         </>
         

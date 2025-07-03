@@ -7,7 +7,7 @@ const router = express.Router();
 // Definimos las rutas
 router.get('/', getCategorias);
 router.get('/:id', validacionToken, getCategoriaById);
-router.post('/', setCategoria);
+router.post('/', validacionToken, setCategoria);
 router.put('/:id', validacionToken, updateCategoriaById);
 router.delete('/:id', validacionToken, deleteCategoriaById);
 

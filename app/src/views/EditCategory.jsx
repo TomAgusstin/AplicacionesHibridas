@@ -1,111 +1,92 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
+import CategoryForm from '../components/CategoryForm';
 
-
-
-function EditCategory (){
+function EditCategory() {
     const endpoint = 'http://127.0.0.1:3000/categorias'
-    const [ cat, setCategory] = useState({titulio: '', estado: ''})
-    const {id} = useParams();
+    const [cat, setCategory] = useState({ titulo: '', estado: '' })
+    const { id } = useParams();
     const token = localStorage.getItem('token');
-
     const navigate = useNavigate();
 
-    async function getCategoryById(){
+    async function getCategoryById() {
         try {
             const options = {
-                 headers: {
+                headers: {
                     Authorization: `Bearer ${token}`
                 }
             }
             const response = await fetch(`${endpoint}/${id}`, options);
-            if( !response.ok){
+            if (!response.ok) {
                 alert('Error al solicitar la categoria')
                 return
-            } 
-            const {data} = await response.json();
-            setCategory( data );
-            
+            }
+            const { data } = await response.json();
+            setCategory(data);
             console.log(data);
-    
+
         } catch (error) {
             console.error(error);
             alert('Error en el servidor');
         }
     }
-    useEffect(  () => {
-       
+
+    useEffect(() => {
         getCategoryById();
+    }, [])
 
-    }, [] )
+    // Función corregida - recibe categoryData del formulario
+    async function editCat(categoryData) {
+        const options = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(categoryData) // Usar categoryData, no cat
+        }
+        try {
+            const response = await fetch(`${endpoint}/${id}`, options);
 
-
-
-
-    function handlerChange ( e) {
-        setCategory({ ...user, [e.target.name]: e.target.value})
-    }
-
-    
-async function editCat(e){
-    e.preventDefault();
-    const options = {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-    }
-    try{
-       const response =  await fetch(`${endpoint}/${id}`, options);
-       
-       if(!response)
-            {
-                console.error('Error al editar usuario');
+            if (!response.ok) {
+                console.error('Error al editar categoria');
+                alert('Error al editar categoria');
                 return;
             }
 
             const data = await response.json();
-           
-            setCategory({...user, titulio: '', estado: ''});
+            console.log('Categoria actualizada:', data);
+            
             // Navegación 
-            navigate('/categorias');
-            // setUser({...user, nombre: '', email: '', password:''})
+            navigate('/categorias', {
+                state: {
+                    mensaje: 'Categoria editada exitosamente',
+                    tipo: 'alert-success'
+                }
+            });
+        }
+        catch (er) {
+            console.error(er);
+            alert('Error en el servidor');
+        }
     }
-    catch(er)
-    {
-        console.error(er);
-    }
-}
-
-
 
     return (
         <>
-            <h2> Actualizar categorias {id}</h2>
-            <hr />
+            <div className="container">
+                <h2>Actualizar categoria {id}</h2>
+                <hr />
 
-            <form onSubmit={ editCat }>
-                <label htmlFor="titulo">Titulo</label>
-                <input
-                    name='titulo' 
-                    value={cat.titulo}
-                    type="text" 
-                    onChange={ handlerChange }
-                />
-
-                <label htmlFor="estado">Estado</label>
-                <input 
-                    name='estado'
-                    value={cat.estado}
-                    onChange={ handlerChange }
-                    type="text" 
-                />
-
-
-                <button type='submit'>Guardar</button>
-            </form>
-        
+               {
+               cat.titulo && (
+                    <CategoryForm 
+                        onSubmit={editCat}
+                        initialData={cat}
+                        buttonText="Actualizar categoria"
+                    />
+                )
+                }
+            </div>
         </>
     )
 }

@@ -8,27 +8,27 @@ const router = express.Router();
 
 // Configuramos MULTER
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb)=>{
-        cb(null, 'upload/')
-    },
-    filename: (req, file, cb)=>{
-        cb(null, file.originalname + '-' + Date.now())
-    }
-});
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb)=>{
+//         cb(null, 'upload/')
+//     },
+//     filename: (req, file, cb)=>{
+//         cb(null, file.originalname + '-' + Date.now())
+//     }
+// });
 
-const upload = multer({storage: storage});
+// const upload = multer({storage: storage});
 
 // Definimos las routas.
 router.get('/', getAutos);
-router.post('/', upload.single('file'), addAuto);
+router.post('/', /*upload.single('file'),*/addAuto);
 router.get('/marca/:marca', getAutosByMarca);
 router.get('/:id', validacionToken, getAutosById);
 router.get('/modelo/:modelo', getRecetasByModelo);
 router.get('/categoria/:categoriaId', getAutosByCategoria);
-router.put('/:id', validacionToken,upload.single('file'), updateAutoById);
+router.put('/:id', validacionToken, updateAutoById);
 router.delete('/:id', validacionToken, deleteAutoById);
 
-router.post('/upload', upload.single('file'), uploadController);
+// router.post('/upload', upload.single('file'), uploadController);
 
 export default router;

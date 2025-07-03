@@ -2,17 +2,22 @@ import React from "react";
 
 function Card(props)
 {
-    function handlerAdd()
-    {
-        props.add(props.name);
-    }
-
     return (
-        <div className="card">
-                   <h4>{props.name}</h4>
-                   <p>{props.price}</p>
-                    <button onClick={handlerAdd}>Quiero mas información</button>
-        </div>
+        <>
+
+            <div className="card">
+            <img src={props.img} className="card-img-top img-fluid" alt={props.alt}/>
+            <div className="card-body">
+                <h5 className="card-title">{props.marca}</h5>
+                <h5 className="card-title">{props.modelo}</h5>
+                {/* <p className="card-text">{props.infoPrecio}</p> */}
+                <p className="card-text">$ {props.alicuota}</p>
+                
+                <a href="#" className="btn btn-primary">Contactenos</a>
+            </div>
+            </div>
+
+        </>
     )
 }
 

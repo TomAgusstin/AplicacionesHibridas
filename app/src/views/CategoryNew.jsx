@@ -1,27 +1,22 @@
 import { useState } from 'react'
+import CategoryForm from '../components/CategoryForm';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 
 function CategoryNew()
 {
-
+const navigate = useNavigate();
 const endPoint = 'http://127.0.0.1:3000/categorias';
-const [cat, setCategory] = useState({titulio: '', estado: ''});
+const token = localStorage.getItem('token');
+async function addCategory(categoryData){
 
-function handlerChange(e){
-    const value = e.target.value;
-    const key = e.target.name;
-    
-    setCategory({ ...cat, [key]: value});
-    // console.log({user});
-}
-
-async function addCategory(event){
-    event.preventDefault();
     const options = {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(cat)
+        body: JSON.stringify(categoryData)
     }
     try{
        const response =  await fetch(endPoint, options);
@@ -34,9 +29,12 @@ async function addCategory(event){
 
             const {data} = await response.json();
             console.table(data);
-            // getUsers();
-
-            setCategory({...cat, titulio: '', estado: ''})
+        navigate('/categorias', {
+                state: {
+                    mensaje: 'Categoria agregada exitosamente',
+                    tipo: 'alert-success'
+                }
+            });
     }
     catch(er)
     {
@@ -46,17 +44,15 @@ async function addCategory(event){
 
 
     return(
-        <>
+        <><div className="container">
                 <h2>Nueva categoria</h2>
 
                             <hr />
-                <form onSubmit={addCategory}>
-                            <label htmlFor='titulo'>Titulo</label><input type="text" name="titulo" value={cat.titulo} onChange={handlerChange}/>
-                                
-                            <label htmlFor='estado'>Email</label><input type="text" name="estado" value={cat.estado} onChange={handlerChange}/>
-                        
-                            <button type='submit'>Agregar categoria</button>
-                </form>
+
+                <CategoryForm onSubmit={addCategory} 
+                isEditing={false}
+                loading={false} />
+                </div>
         </>
         
     )

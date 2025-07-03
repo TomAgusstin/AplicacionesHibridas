@@ -3,12 +3,16 @@ import ProductsContainer from '../components/ProductsContainer'
 import { useState, useEffect } from 'react'
 import TableCars from '../components/TableCars'
 import { useNavigate } from 'react-router-dom'
+import ButtonPrimary from '../components/ButtonPrimary'
+import Alert from '../components/Alert'
 
 function Cars() {
   const endpoint = 'http://localhost:3000/autos';
   const navigate = useNavigate();
   const [autos, setAutos] = useState([]);
-
+  const [error, setError] = useState(null);
+  const token = localStorage.getItem('token');
+  const mensaje = '', tipoAlerta = '';
 
   async function getCars() {
     try {
@@ -20,35 +24,53 @@ function Cars() {
         return;
       }
 
+      if(localStorage.getItem('token') == null)
+      {
+        throw new Error('No estás autorizado. Iniciá sesión nuevamente.');
+             
+      }
+
+
       const { data } = await response.json();
       console.table(data);
       setAutos(data);
     }
     catch (ex) {
       console.error(ex);
+      setError(ex);
     }
   };
 
   useEffect(() => {
     getCars();
   }, {})
+
   return (
     <>
       <h2>Cars</h2>
+                  {error && <div className="alert alert-danger">{error}</div>}
 
       <hr />
-      <div>
-        <button type='button' onClick={() => navigate('/nuevoAuto')}>Agregar auto</button>
-      </div>
-      <ProductsContainer>
 
+           <ButtonPrimary
+                    to="/nuevoAuto"
+                    label="Nuevo auto"
+                />
+      <ProductsContainer>
+                  {mensaje && <Alert
+                                      tipoAlerta={tipo}
+                                      texto={mensaje}
+                                  />}                
         <table>
           <thead>
             <tr>
               <th>Marca</th>
               <th>Modelo</th>
               <th>Categoria</th>
+              <th>Precio</th>
               <th>Alicuota</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
 
@@ -60,34 +82,16 @@ function Cars() {
                   marca={a.marca}
                   modelo={a.modelo}
                   alicuota={a.alicuota}
+                  categoriaId={a.categoriaId}
+                  infoPrecio={a.infoPrecio}
                   _id={a._id}
-
+                  setCars={setAutos}
                 // price={product.price}
                 />)
               )
             }
           </tbody>
         </table>
-
-
-
-        {/* <form action="" onSubmit={nuevoProducto}>
-
-      <div>
-        <label htmlFor="">Nombre</label>
-        <input type="text" name="" id="" value={product.name} placeholder='Nombre' onChange={(e)=> { setProduct({...product, nombre: e.target.value})}}/>
-      </div>
-      <div>
-        <label htmlFor="">Precio</label>
-        <input type="number" name="" id="" value={product.price} placeholder='$' onChange={(e)=> { setProduct({...product, price: e.target.value})}}/>
-      </div>
-       <div>
-        <label htmlFor="">Descripcion</label>
-        <input type="text" name="" id="" value={product.description} placeholder='Descripcion' onChange={(e)=> { setProduct({...product, description: e.target.value})}}/>
-      </div>
-
-      <button type='submit'>Guardar</button>
-    </form> */}
 
       </ProductsContainer>
     </>

@@ -1,66 +1,94 @@
 import { useState } from 'react'
+import UserForm from '../components/UserForm';
+function UserNew() {
 
-function UserNew()
-{
+    const endPoint = 'http://127.0.0.1:3000/users';
+    const [user, setUser] = useState({ nombre: '', email: '', password: '' });
+    const [error, setError] = useState(null);
+    const [success, setsuccess] = useState(null);
 
-const endPoint = 'http://127.0.0.1:3000/users';
-const [user, setUser] = useState({nombre: '', email: '', password:''});
+    function handlerChange(e) {
+        
+        const value = e.target.value;
+        const key = e.target.name;
 
-function handlerChange(e){
-    const value = e.target.value;
-    const key = e.target.name;
-    
-    setUser({ ...user, [key]: value});
-    console.log({user});
-}
-
-async function addUser(event){
-    event.preventDefault();
-    const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
+        setUser({ ...user, [key]: value });
+        console.log({ user });
     }
-    try{
-       const response =  await fetch(endPoint, options);
-       
-       if(!response)
-            {
+
+    async function addUser(event) {
+        event.preventDefault();
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        }
+        try {
+            const response = await fetch(endPoint, options);
+
+            if (!response) {
                 console.error('Error al guardar usuario');
                 return;
             }
+            else if(response.status === 202)
+            {
+                setsuccess("Usuario agregado con exito");
+            }
+            else
+            {    const errorData = await response.json();
+                throw new Error(errorData.msg);
+                
+            }
 
-            const {data} = await response.json();
+            const { data } = await response.json();
             console.table(data);
-            getUsers();
-
-            setUser({...user, nombre: '', email: '', password:''})
+            setUser({ ...user, nombre: '', email: '', password: '' })
+        }
+        catch (er) {
+            setError(er.message);
+            console.error(er);
+        }
     }
-    catch(er)
-    {
-        console.error(er);
-    }
-}
 
 
-    return(
+    return (
         <>
-                <h2>Nuevo usuario</h2>
+        {/* <div className="container">
+            <h2>Nuevo usuario</h2>
+                        {error && <div className="alert alert-danger">{error}</div>}
+                        {success && <div className="alert alert-success">{success}</div>}
 
-                            <hr />
-                <form onSubmit={addUser}>
-                            <label htmlFor='nombre'>Nombre</label><input type="text" name="nombre" value={user.nombre} onChange={handlerChange}/>
-                                
-                            <label htmlFor='email'>Email</label><input type="email" name="email" value={user.email} onChange={handlerChange}/>
-                                    
-                            <label htmlFor='password'>Password</label><input type="password" name="password" value={user.password} onChange={ handlerChange}/>
+            <hr />
+            <form onSubmit={addUser}>
+                <div className="form-group">
+                    <label htmlFor='nombre' className='form-label'>Nombre</label><input className='form-control' type="text" name="nombre" value={user.nombre} onChange={handlerChange} />
+                </div>
+                <div className="form-group">
+                    <label htmlFor='email' className='form-label'>Email</label><input className='form-control' type="email" name="email" value={user.email} onChange={handlerChange} />
 
-                            <button type='submit'>Guardar usuario</button>
-                </form>
+                </div>
+                <div className="form-group">
+                    <label htmlFor='password' className='form-label'>Password</label><input className='form-control' type="password" name="password" value={user.password} onChange={handlerChange} />
+
+                </div>
+
+
+
+                <button type='submit' className='btn btn-primary'>Agregar usuario</button>
+            </form>
+        </div> */}
+            <UserForm
+            user={user}
+            handlerChange={handlerChange}
+            onSubmit={addUser}
+            error={error}
+            success={success}
+            isEditing={false}
+        />
         </>
-        
+
     )
 };
 
