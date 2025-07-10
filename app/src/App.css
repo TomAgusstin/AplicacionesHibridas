@@ -81,8 +81,7 @@ footer{
 
 
 .app-container{
-  min-height: 90vh;
-  margin-bottom: 3rem;
+  min-height: 100vh;
 }
 
 .btn-secondary{

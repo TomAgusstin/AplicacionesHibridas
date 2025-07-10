@@ -21,13 +21,16 @@ function Cars() {
 
       if (!response) {
         console.error('Error obteniendo los autos');
-        return;
-      }
 
-      if(localStorage.getItem('token') == null)
-      {
-        throw new Error('No estás autorizado. Iniciá sesión nuevamente.');
-             
+              if (response.status === 403) {
+                    localStorage.removeItem('token');
+                    throw new Error('Acceso denegado. No tenés permiso para ver esta información (su sesión expiro o no tiene permiso).');
+                } else if (response.status === 401) {
+                    localStorage.removeItem('token');
+                    throw new Error('No estás autorizado. Iniciá sesión nuevamente.');
+                } else {
+                    throw new Error(`Error inesperado: ${response.status}`);
+                }
       }
 
 
