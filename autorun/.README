@@ -1,0 +1,61 @@
+# AUTORUN 🚗
+
+Sistema web para la gestión de una concesionaria de autos. Permite administrar autos, usuarios y categorías de autos mediante operaciones CRUD completas.
+
+## 📂 Estructura del repositorio
+
+/frontend   # Aplicación React (interfaz de usuario)
+/backend    # API Node.js + Express + Mongoose (servidor y base de datos)
+
+---
+
+## 📝 Descripción
+
+AUTORUN es un sistema desarrollado como práctica full stack para gestionar el stock de una concesionaria, con las siguientes funcionalidades principales:
+
+- Gestión de **autos** (crear, leer, actualizar, eliminar)
+- Gestión de **usuarios**
+- Gestión de **categorías de autos**
+- Visualización responsive y diseño adaptado a diferentes dispositivos
+
+---
+
+## 🚀 Tecnologías utilizadas
+
+- **Frontend**: React, Bootstrap
+- **Backend**: Node.js, Express.js, Mongoose (MongoDB), JWT
+
+---
+
+## ⚙️ Cómo levantar el proyecto
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/TomAgusstin/AplicacionesHibridas/
+cd AplicacionesHibridas/autorun
+
+
+### 2. Levantar el backend (Por defecto corre en http://localhost:3000)
+cd backend
+npm install
+npm start
+
+
+### 3. Levantar el frontend
+cd frontend
+npm install
+npm run dev
+
+
+# 🖥️ Uso
+Acceder al frontend en el navegador.
+
+Loguearse o navegar según las rutas públicas/protegidas.
+
+Administrar autos, usuarios y categorías desde las vistas correspondientes.
+
+# ✨ Autor
+Tomas Ramirez Cordero
+
+📧 Contacto: tu-email@example.com
