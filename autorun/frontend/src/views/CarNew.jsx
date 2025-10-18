@@ -153,7 +153,7 @@ function CarNew() {
     }, []);
           
     return (
-        <div className="container-fluid p-4">
+        <div className='container-fluid h-50'>
             <div className="row justify-content-center">
                 <div className="col-12 col-lg-8">
                     <div className="card shadow-sm w-100">
@@ -414,6 +414,7 @@ function CarNew() {
                 </div>
             </div>
         </div>
+
     );
 }
 

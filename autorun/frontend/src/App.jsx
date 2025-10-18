@@ -17,10 +17,10 @@ function App() {
 
   return (
     <>
-    <div className="app-container">
+    <div className="d-flex app-container">
       <NavbarWithProvider />
-    </div>
-    <Footer></Footer>
+        </div>
+    {/* <Footer></Footer> */}
     </>
   )
 }

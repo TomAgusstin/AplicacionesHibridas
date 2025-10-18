@@ -50,7 +50,8 @@ const tipo = location.state?.tipo;
 
   return (
     <>
-      <h2>Panel de autos</h2>
+   <div className='container-fluid'>
+      <h2 className=''>Panel de autos</h2>
                   {error && <div className="alert alert-danger">{error}</div>}
 
       <hr />
@@ -99,6 +100,8 @@ const tipo = location.state?.tipo;
         </table>
             </div>
       </ProductsContainer>
+          </div>
+
     </>
 
   )

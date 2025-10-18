@@ -8,7 +8,7 @@ import Alert from '../components/Alert';
 //                 {id:2, nombre: 'Lu', email: 'asdasd@gmail.com'}
 // ]
 
-function Users()
+function Dashboard()
 {
 
 const endPoint = 'http://127.0.0.1:3000/users';
@@ -91,72 +91,13 @@ useEffect(  () => {
 
 }, token)
 
-const handleDelete = (id) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
-        deleteUser(id);
-    }
-};
     return(
         <>
-        <div className='container-fluid'>
-              <h2>Panel de Usuarios</h2>
+                <h2>Dashboard</h2>
                 <hr />
-                    <ButtonPrimary
-                    to="/nuevoUsuario"
-                    label="Nuevo usuario"
-                />
-            {error && <Alert
-                                tipoAlerta="alert-danger"
-                                texto={error}
-                                
-                            />}
-            {mensaje && <Alert
-                                tipoAlerta={tipo}
-                                texto={mensaje}
-                            />}                
-            <ProductsContainer>
-                <div className="table-scroll">
-                    <table className='m-auto'>
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        
-                              {
-                                users != null && users.map(user => (
-                                <tr key={user._id}>
-                                    <td>{user.nombre}</td>
-                                    <td>{user.email}</td>
-                                    <td>
-                                    <button className='btn btn-primary' onClick={() => {navigate(`/actualizarUsuario/${user._id}`)}} >
-                                        <i className='bi bi-pen'></i>
-                                    </button>
-                                    </td>
-                                    <td>
-                                    <button className='btn btn-primary' onClick={() => handleDelete(user._id)}><i className='bi bi-trash'></i></button>
-                                    </td>
-                                </tr>
-                                ))
-                            }
-                        
-                    </tbody>
-                </table>
-                </div>
-                 
-            </ProductsContainer>
-               
-
-        </div>
-              
         </>
         
     )
 };
 
-export default Users;
+export default Dashboard;

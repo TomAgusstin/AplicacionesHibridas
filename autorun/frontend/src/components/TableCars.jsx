@@ -70,12 +70,12 @@ const handleDelete = (id) => {
 })}</td>
                     <td>
                         <button className="btn btn-primary" type="button" onClick={() => { navigate(`/editarAuto/${autos._id}`) }}>
-                            <i className="bi bi-pen-fill"></i>
+                            <i className="bi bi-pen"></i>
                         </button>
                     </td>
                     <td>
                         <button  className="btn btn-primary" type="button" onClick={() => handleDelete(autos._id)}>
-                           <i className="bi bi-trash-fill"></i>
+                           <i className="bi bi-trash"></i>
                         </button>
                     </td>
                 </tr>

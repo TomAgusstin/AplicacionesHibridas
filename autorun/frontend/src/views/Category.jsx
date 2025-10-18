@@ -86,7 +86,8 @@ const handleDelete = (id) => {
 
     return(
         <>
-                <h2>Panel de Categorias</h2>
+        <div className="container-fluid">
+  <h2>Panel de Categorias</h2>
                 <hr />
                 <ButtonPrimary
                     to="/nuevaCategoria"
@@ -125,11 +126,11 @@ const handleDelete = (id) => {
                                     <td>{c.estado}</td>
                                     <td>
                                     <button className='btn btn-primary' onClick={() => {navigate(`/editarCategoria/${c._id}`)}} >
-                                        <i className='bi bi-pen-fill'></i>
+                                        <i className='bi bi-pen'></i>
                                     </button>
                                     </td>
                                     <td>
-                                    <button className='btn btn-primary'  onClick={() => handleDelete(c._id)}>  <i className='bi bi-trash-fill'></i></button>
+                                    <button className='btn btn-primary'  onClick={() => handleDelete(c._id)}>  <i className='bi bi-trash'></i></button>
                                     </td>
                                 </tr>
                                 ))
@@ -139,6 +140,8 @@ const handleDelete = (id) => {
                 </table>
                 </div>
             </ProductsContainer>
+        </div>
+              
                 
 
         </>
