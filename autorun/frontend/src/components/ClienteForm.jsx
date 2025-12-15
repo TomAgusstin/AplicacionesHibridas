@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserForm = ({ 
+const ClienteForm = ({ 
     user, 
     handlerChange, 
     onSubmit, 
@@ -10,14 +10,14 @@ const UserForm = ({
     loading = false
 }) => {
     return (
-    <div className="container-fluid p-4">
+    <div className="container-fluid p-4 ">
         <div className="row d-flex justify-content-center">
             <div className="col-12 col-lg-12">
                 <div className="card shadow-sm w-100">
                     <div className="card-header bg-primary text-white">
                         <h4 className="card-title mb-0">
                             <i className="bi bi-person me-2"></i>
-                            {isEditing ? `Actualizar empleado ${userId}` : 'Agregar nuevo empleado'}
+                            {isEditing ? `Actualizar cliente ${userId}` : 'Agregar nuevo cliente'}
                         </h4>
                     </div>
 
@@ -42,7 +42,7 @@ const UserForm = ({
                                 <div className="col-12">
                                     <h5 className="text-muted border-bottom pb-2 mb-3">
                                         <i className="bi bi-info-circle me-2"></i>
-                                        Información de empleado
+                                        Información de cliente
                                     </h5>
                                 </div>
 
@@ -56,13 +56,44 @@ const UserForm = ({
                                         value={user.nombre || ''}
                                         type="text"
                                         className="form-control"
-                                        placeholder="Ej: Juan Pérez"
+                                        placeholder="Ej: Juan"
                                         onChange={handlerChange}
                                         required
                                         disabled={loading}
                                     />
                                 </div>
-
+                                       <div className="col-md-6 mb-3">
+                                    <label htmlFor="apellido" className="form-label fw-semibold">
+                                        Apellido <span className="text-danger">*</span>
+                                    </label>
+                                    <input
+                                        id="apellido"
+                                        name="apellido"
+                                        value={user.apellido || ''}
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Ej:Pérez"
+                                        onChange={handlerChange}
+                                        required
+                                        disabled={loading}
+                                    />
+                                </div>
+                                        <div className="col-md-6 mb-3">
+                                    <label htmlFor="dni" className="form-label fw-semibold">
+                                        DNI <span className="text-danger">*</span>
+                                    </label>
+                                    <input
+                                        id="dni"
+                                        name="dni"
+                                        value={user.dni || ''}
+                                        type="dni"
+                                        className="form-control"
+                                        placeholder="123456789"
+                                        onChange={handlerChange}
+                                        required
+                                        disabled={loading}
+                                    />
+                                </div>
                                 <div className="col-md-6 mb-3">
                                     <label htmlFor="email" className="form-label fw-semibold">
                                         Email <span className="text-danger">*</span>
@@ -81,36 +112,21 @@ const UserForm = ({
                                 </div>
                                       <div className="col-md-6 mb-3">
                                     <label htmlFor="rol" className="form-label fw-semibold">
-                                        Rol <span className="text-danger">*</span>
+                                        Celular <span className="text-danger">*</span>
                                     </label>
                                     <input
-                                        id="rol"
-                                        name="rol"
-                                        value={user.rol || ''}
-                                        type="rol"
+                                        id="celular"
+                                        name="celular"
+                                        value={user.celular || ''}
+                                        type=""
                                         className="form-control"
-                                        placeholder="Vendedor"
+                                        placeholder="1112345678"
                                         onChange={handlerChange}
                                         required
                                         disabled={loading}
                                     />
                                 </div>
-                                <div className="col-md-6 mb-3">
-                                    <label htmlFor="password" className="form-label fw-semibold">
-                                        Password{!isEditing && <span className="text-danger"> *</span>} {isEditing && <span className="text-muted">(opcional)</span>}
-                                    </label>
-                                    <input
-                                        id="password"
-                                        name="password"
-                                        value={user.password || ''}
-                                        type="password"
-                                        className="form-control"
-                                        placeholder={isEditing ? 'Dejar vacío para mantener actual' : '********'}
-                                        onChange={handlerChange}
-                                        required={!isEditing}
-                                        disabled={loading}
-                                    />
-                                </div>
+      
                             </div>
 
                             {/* Botones de acción */}
@@ -118,7 +134,7 @@ const UserForm = ({
                                 <div className="col-12">
                                     <hr />
                                     <div className="d-flex justify-content-between">
-                                        <a href="/usuarios" className="btn btn-secondary">
+                                        <a href="/clientes" className="btn btn-secondary">
                                             <i className="bi bi-arrow-left me-2"></i>
                                             Volver
                                         </a>
@@ -132,7 +148,7 @@ const UserForm = ({
                                             ) : (
                                                 <>
                                                     <i className="bi bi-check-lg me-2"></i>
-                                                    {isEditing ? 'Actualizar empleado' : 'Agregar empleado'}
+                                                    {isEditing ? 'Actualizar cliente' : 'Agregar cliente'}
                                                 </>
                                             )}
                                         </button>
@@ -148,4 +164,4 @@ const UserForm = ({
 );
 };
 
-export default UserForm;
+export default ClienteForm;

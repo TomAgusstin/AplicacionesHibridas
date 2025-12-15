@@ -157,7 +157,7 @@ function CarForm({
     }, [initialData]);
           
     return (
-        <div className="container-fluid p-4">
+        <div className="container-fluid p-4 d-flex justify-content-center align-items-center">
             <div className="row justify-content-center">
                 <div className="col-12 col-lg-8">
                     <div className="card shadow-sm w-100">

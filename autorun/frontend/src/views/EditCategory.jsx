@@ -73,10 +73,7 @@ function EditCategory() {
 
     return (
         <>
-            <div className="container">
-                <h2>Actualizar categoria {id}</h2>
-                <hr />
-
+            <div className="container-fluid">
                {
                cat.titulo && (
                     <CategoryForm 

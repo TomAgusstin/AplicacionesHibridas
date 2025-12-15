@@ -1,10 +1,13 @@
 import { Navigate, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function TableCars(autos) {
     const navigate = useNavigate();
     const endPoint = 'http://127.0.0.1:3000/autos';
     const token = localStorage.getItem('token');
-    
+      const [showModal, setShowModal] = useState(false);
+    const [autoToDelete, setAutoToDelete] = useState(null);
+
     async function deleteAuto(id) {
         const options = {
             method: 'DELETE',
@@ -35,11 +38,24 @@ function TableCars(autos) {
         }
     }
 
-const handleDelete = (id) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar este auto?')) {
-        deleteAuto(id);
-    }
-};
+const handleDeleteClick = (id) => {
+        setAutoToDelete(id);
+        setShowModal(true);
+    };
+
+    const handleConfirmDelete = () => {
+        if (autoToDelete) {
+            deleteAuto(autoToDelete);
+        }
+        setShowModal(false);
+        setAutoToDelete(null);
+    };
+
+    const handleCancelDelete = () => {
+        setShowModal(false);
+        setAutoToDelete(null);
+    };
+
 
 
     return (
@@ -74,13 +90,71 @@ const handleDelete = (id) => {
                         </button>
                     </td>
                     <td>
-                        <button  className="btn btn-primary" type="button" onClick={() => handleDelete(autos._id)}>
+                        <button  className="btn btn-primary" type="button" onClick={() => handleDeleteClick(autos._id)}>
                            <i className="bi bi-trash"></i>
                         </button>
                     </td>
                 </tr>
 
             }
+
+
+
+     {/* Modal de Confirmación */}
+            <div 
+                className={`modal fade ${showModal ? 'show' : ''}`} 
+                style={{ display: showModal ? 'block' : 'none' }}
+                tabIndex="-1"
+            >
+                <div className="modal-dialog modal-dialog-centered" >
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title">Confirmar Eliminación</h5>
+                            <button 
+                                type="button" 
+                                className="btn-close" 
+                                onClick={handleCancelDelete}
+                            ></button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="text-center mb-3">
+                                <i className="bi bi-exclamation-triangle text-warning" style={{ fontSize: '3rem' }}></i>
+                            </div>
+                            <p className="text-center">
+                                ¿Estás seguro de que deseas eliminar este auto?
+                            </p>
+                            <p className="text-center text-muted small">
+                                Esta acción no se puede deshacer.
+                            </p>
+                        </div>
+                        <div className="modal-footer d-flex justify-content-between">
+                            <button 
+                                type="button" 
+                                className="btn btn-secondary" 
+                                onClick={handleCancelDelete}
+                            >
+                                Cancelar
+                            </button>
+                            <button 
+                                type="button" 
+                                className="btn btn-primary" 
+                                onClick={handleConfirmDelete}
+                            >
+                                <i className="bi bi-trash me-2"></i>
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            {/* Backdrop del modal */}
+            {showModal && (
+                <div 
+                    className="modal-backdrop fade show" 
+                    onClick={handleCancelDelete}
+                ></div>
+            )}
         </>
     )
 }

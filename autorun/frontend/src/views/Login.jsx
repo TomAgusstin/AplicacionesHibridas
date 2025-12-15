@@ -10,6 +10,8 @@ function Login() {
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
     const [error, setError] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
+
     const location = useLocation();
     const mensaje = location.state?.mensaje;
     const tipo = location.state?.tipo;
@@ -42,10 +44,9 @@ function Login() {
                 throw new Error('Error al ingresar usuario');
             }
 
-            else if(response.status === 404)
-            {
-              const errorData = await response.json();
-              throw new Error('Error al iniciar sesion. ' + errorData.msg);
+            else if (response.status === 404) {
+                const errorData = await response.json();
+                throw new Error('Error al iniciar sesion. ' + errorData.msg);
             }
 
             const data = await response.json();
@@ -55,9 +56,9 @@ function Login() {
                 login('user', data.token);
                 navigate('/usuarios', {
                     state: {
-                    mensaje: `Bienvenido ${data.data.nombre}`,
-                    tipo: 'alert-success'
-                }
+                        mensaje: `Bienvenido ${data.data.nombre}`,
+                        tipo: 'alert-success'
+                    }
                 });
             }
 
@@ -68,82 +69,90 @@ function Login() {
         }
     }
 
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+
     return (
         <>
-        <div className="container">
-            <div className="row">
-                <div className="col-md-6">
+            <div className="container-fluid w-100 p-0">
 
-                         <h2>Login</h2>
-                        {mensaje && <Alert
-                                tipoAlerta={tipo}
-                                texto={mensaje}
-                            />}     
+                <div className="d-flex justify-content-around h-100">
 
-            <hr />
-            <form onSubmit={handlerForm}>
-                <div className="form-group">
-                    <label htmlFor='email' className='form-label'>Email</label><input className='form-control' type="email" name="email" value={user.email} onChange={handlerChange} />
-
-                </div>
-                <div className="form-group">
-                    <label htmlFor='password' className='form-label'>Password</label><input className='form-control' type="password" name="password" value={user.password} onChange={handlerChange} />
-
-                </div>
-                <div className="row">
-                    <div className="col-xs-12 col-md-6 m-auto">
-                        <button type='submit' className='btn btn-primary mt-3 w-100'>Ingresar </button>
-                    </div>
-                    
-
-                </div>
-                <div className='row mt-2'>
-                                        <div className="col-xs-12 col-md-6 m-auto">
-                                                                <button onClick={ () => { navigate('/nuevoUsuario')}} className='btn btn-secondary w-100'> Nuevo Usuario</button>
-
-                    </div>
-                </div>
-                            {error && 
+                    <div className="d-flex justify-content-center align-items-center flex-column">
+                        {error &&
                             <Alert
                                 tipoAlerta="alert-danger"
                                 texto={error}
                                 dismissAlert={setError}
                             />
-                            }
+                        }
 
-            </form>
+                        <div className="w-75 card mb-2 d-flex justify-content-center align-items-center">
+                            <img src="/uploads/imagotipo-masauto-original.png" alt="Logo de MasAuto" className='w-50 m-auto' />
 
+                            <h2 className='w-75 border-bottom'>Login</h2>
+                            {mensaje && <Alert
+                                tipoAlerta={tipo}
+                                texto={mensaje}
+                            />}
+
+                            <form onSubmit={handlerForm} className='w-75'>
+                                <div className="form-group">
+                                    <label htmlFor='email' className='form-label'>Email</label><input className='form-control' type="email" name="email" value={user.email} onChange={handlerChange} />
+
+                                </div>
+
+                                <label htmlFor='password' className='form-label mt-2'>Password</label>
+
+                                <div className="input-group mt-">
+
+                                    <input
+                                        className='form-control'
+                                        type={showPassword ? "text" : "password"}
+                                        name="password"
+                                        id="password"
+                                        value={user.password}
+                                        onChange={handlerChange}
+                                        placeholder="Ingresa tu contraseña"
+                                    />
+                                    <button
+                                        className="btn"
+                                        type="button"
+                                        onClick={togglePasswordVisibility}
+                                        aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                                    >
+                                        <i className={`text-primary bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                    </button>
+                                </div>
+                                <div className="row">
+                                    <div className="col-xs-12 col-md-6 m-auto">
+                                        <button type='submit' className='btn btn-primary mt-3 w-100'>Ingresar </button>
+                                    </div>
+                                    <a className='text-center pt-4 text-primary mb-3' href="">Olvide mi contraseña</a>
+
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+
+                    </div>
+
+                    <div className="w-50 bg-primary trama d-flex justify-content-center align-items-center">
+                        <h2 className='text-white'>
+                            Más confianza, más gestión, menos problemas.
+                        </h2>
+
+                    </div>
                 </div>
 
-                <div className="col-md-6 p-5">
-             
-                            <div className="row card w-100 d-flex flex-column justify-content-around">
-                                <div className="col-12 mb-5">
-                                    <div className="btn btn-primary w-100 d-flex flex-row m-auto align-items-center">
-                                        <i className='bi bi-car-front-fill me-5 ms-2 fs-4'></i>
-                                    Administrar autos
-                                    </div>
-                                    
-                                </div>
-                                <div className="col-12 mb-5">
-                                       <div className="btn btn-primary w-100 d-flex flex-row m-auto align-items-center">
-                                        <i className='bi bi-people-fill me-5 ms-2 fs-4'></i>
-                                     Administrar usuarios
-                                    </div>
-                                </div>
-                                <div className="col-12">
-                                       <div className="btn btn-primary w-100 d-flex flex-row m-auto align-items-center">
-                                        <i className='bi bi-tags-fill me-5 ms-2 fs-4'></i>
-                                     Administrar categorias
-                                    </div>
-                                </div>
-                            </div>
-
-                </div>
             </div>
 
-        </div>
-           
         </>
 
     )

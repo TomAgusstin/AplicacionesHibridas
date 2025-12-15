@@ -1,4 +1,3 @@
-import ProductsContainer from '../components/ProductsContainer'
 import Card from '../components/Card'
 import { useEffect, useState } from 'react';
 import Table from '../components/Table'

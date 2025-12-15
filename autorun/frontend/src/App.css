@@ -5,7 +5,7 @@
 
 @font-face{
   font-family: 'Ivy Mode';
-  src: url('../uploads/fonts/ivy-mode-regular.woff') format('woff');
+  src: url('/uploads/fonts/ivy-mode-regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -17,12 +17,12 @@ h1, h2, h3, h4, h5, h6{
 
 @font-face {
   font-family: 'Montserrat';
-  src: url('../uploads/fonts/montserrat-v31-latin-regular.woff2') format('woff');
+  src: url('/uploads/fonts/montserrat-v31-latin-regular.woff2') format('woff2');
   font-style: normal;
   font-weight: 400;
 }
 
-p, span, strong{
+p, span, strong, a, table{
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -36,25 +36,11 @@ body{
     place-items: inherit!important;
     min-height: 100vh!important;
 }
-
-
-.card {
-  padding: 2em;
-  width: 18rem;
-  min-height: 26rem;
-}
-
 .read-the-docs {
   color: #888;
 }
 
 
-.productContainer{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
-}
 .row
 {
   margin-left: 0px!important;
@@ -62,7 +48,7 @@ body{
 }
 
 .btn-primary, .btn-outline-primary{
-    background-color: #3c0363;
+    background-color: #2f024e;
     border-color: white;
     color: white;
     font-weight: 500;
@@ -109,7 +95,7 @@ footer{
 
 
 .app-container{
-  min-height: 90vh;
+  min-height: 100vh;
   max-height: 100vh;
 }
 
@@ -143,7 +129,7 @@ table{
 }
 
 .bg-primary{
-  background-color: #3c0363!important;
+  background-color: #2f024e!important;
 }
 
 .card-home{
@@ -173,4 +159,52 @@ table{
 
 .active{
   background-color: #7400c1!important;
+}
+
+.bg-ffff{
+  background-color: #ffff;
+}
+
+.trama{
+  background: url('/uploads/trama-masauto.png') no-repeat center center;
+  background-size: cover;
+  opacity: 10;
+}
+
+
+.text-primary{
+  color: #2f024e!important;
+  text-decoration: none;
+}
+
+.dashboard{
+  background-color: #2f024e;
+  box-shadow: 0px 3px 5px #2f024e2b !important;
+  border-radius: 10px;
+  color: #ffffff;
+}
+
+
+.badge{
+  min-width: 7rem!important;
+}
+
+
+.container-fluid{
+  overflow-y: auto;
+  background-color: #f2f2fa;
+}
+
+.table-responsive{
+    box-shadow: 0px 3px 5px #2f024e2b !important;
+    background: white;
+    border-radius: 10px;
+}
+
+.table>:not(caption)>*>*{
+  background: none!important;
+}
+
+th{
+  border-bottom: 1px solid gainsboro;
 }

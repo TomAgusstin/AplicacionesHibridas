@@ -44,10 +44,8 @@ async function addCategory(categoryData){
 
 
     return(
-        <><div className="container">
-                <h2>Nueva categoria</h2>
+        <><div className="container-fluid">
 
-                            <hr />
 
                 <CategoryForm onSubmit={addCategory} 
                 isEditing={false}

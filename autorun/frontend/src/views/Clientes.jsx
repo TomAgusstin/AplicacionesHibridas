@@ -7,24 +7,24 @@ import Alert from '../components/Alert';
 //                 {id:2, nombre: 'Lu', email: 'asdasd@gmail.com'}
 // ]
 
-function Users()
+function Clientes()
 {
 
-const endPoint = 'http://127.0.0.1:3000/users';
-const [users, setUsers] = useState([]);
-// const [user, setUser] = useState({nombre: '', email: '', password:''});
+const endPoint = 'http://127.0.0.1:3000/clientes';
+const [clientes, setClientes] = useState([]);
 const navigate = useNavigate();
 const {logout} = useContext(AuthContext);
 const token = localStorage.getItem('token');
 const [error, setError] = useState(null);
-  const [sinDatos, setSinDatos] = useState(false);
-    const [showModal, setShowModal] = useState(false);
-    const [empleadoToDelete, setEmpleadoToDelete] = useState(null);
+const [sinDatos, setSinDatos] = useState(false);
+      const [showModal, setShowModal] = useState(false);
+    const [clienteToDelete, setClienteToDelete] = useState(null);
+
 const location = useLocation();
 const mensaje = location.state?.mensaje;
 const tipo = location.state?.tipo;
 
-async function getUsers(){
+async function getClientes(){
     try{
         
             const options = {
@@ -34,25 +34,27 @@ async function getUsers(){
             }
             const response = await fetch(endPoint, options);
             
-             if (!response.ok) {
-                if (response.status === 403) {
-                    localStorage.removeItem('token');
-                    throw new Error('Acceso denegado. No tenés permiso para ver esta información (su sesión expiro o no tiene permiso).');
-                } else if (response.status === 401) {
-                    localStorage.removeItem('token');
-                    throw new Error('No estás autorizado. Iniciá sesión nuevamente.');
-                }else      if (response.status === 404) {
-                setSinDatos(true);
-            } else {
-                    throw new Error(`Error inesperado: ${response.status}`);
-                }
+        if (!response.ok) {
+            if (response.status === 403) {
+                localStorage.removeItem('token');
+                throw new Error('Acceso denegado. No tenés permiso para ver esta información (su sesión expiro o no tiene permiso).');
+            } else if (response.status === 401) {
+                localStorage.removeItem('token');
+                throw new Error('No estás autorizado. Iniciá sesión nuevamente.');
+            }  else {
+                throw new Error(`Error inesperado: ${response.status}`);
             }
+        }
 
-    
-            const {data} = await response.json();
+        if (response.status === 204) {
+                setSinDatos(true);
+            }
+           
+                const {data} = await response.json();
             console.table(data);
-            setUsers(data);
+            setClientes(data);
 
+            
     }
     catch(ex)
     {
@@ -61,7 +63,7 @@ async function getUsers(){
     }
 };
 
-async function deleteUser(id){
+async function deleteCliente(id){
     const options = {
         method: 'DELETE',
         headers: {
@@ -73,14 +75,15 @@ async function deleteUser(id){
        
        if(!response)
             {
-                console.error('Error al eliminar usuario');
+                console.error('Error al eliminar cliente.');
                 return;
             }
+
             const {data} = await response.json();
             console.table(data);
 
-            setError("Usuario eliminado con exito");
-            getUsers();
+            setError("Cliente eliminado con exito");
+            getClientes();
             console.log(error)
             // setUser({...user, nombre: '', email: '', password:''})
     }
@@ -91,39 +94,39 @@ async function deleteUser(id){
 }
 
 useEffect(  () => {
-    getUsers();
+    getClientes();
 
 }, token)
 
-
 const handleDeleteClick = (id) => {
-        setEmpleadoToDelete(id);
+        setClienteToDelete(id);
         setShowModal(true);
     };
 
     const handleConfirmDelete = () => {
-        if (empleadoToDelete) {
-            deleteUser(empleadoToDelete);
+        if (clienteToDelete) {
+            deleteCliente(clienteToDelete);
         }
         setShowModal(false);
-        setEmpleadoToDelete(null);
+        setClienteToDelete(null);
     };
 
     const handleCancelDelete = () => {
         setShowModal(false);
-        setEmpleadoToDelete(null);
+        setClienteToDelete(null);
     };
 
+
 const stats = [
-    { title: 'Sin vender', value: '2', change: '+12%', icon: 'bi-people', color: 'white' },
-    { title: 'Con seguimiento', value: '5', change: '+8%', icon: 'bi-people', color: 'white' },
-    { title: 'Con planes activos', value: '10', change: '-3%', icon: 'bi-people', color: 'white' },
-    { title: 'Facturado total', value: '$230.458.450,45', change: '+15%', icon: 'bi-currency-dollar', color: 'white' }
+    { title: 'Nuevos', value: '15', change: '+12%', icon: 'bi-plus', color: 'white' },
+    { title: 'En cartera', value: '67', change: '+8%', icon: 'bi-people', color: 'white' },
+    { title: 'Con mora', value: '3', change: '-3%', icon: 'bi-exclamation-circle', color: 'white' },
+    { title: 'Facturado', value: '$234.455.890,00', change: '+15%', icon: 'bi-currency-dollar', color: 'white' }
   ];
     return(
         <>
         <div className='container-fluid'>
-              <h2>Panel de empleados</h2>
+              <h2>Panel de clientes</h2>
                 <hr />
                    <div className="row g-3 mb-3">
               {stats.map((stat, index) => (
@@ -131,7 +134,7 @@ const stats = [
                   <div className="card border-0 shadow-sm dashboard">
                     <div className="card-body">
                       <div className="d-flex justify-content-between align-items-center mb-3">
-                        <h4 className=" mb-0">{stat.title}</h4>
+                        <h4 className="mb-0">{stat.title}</h4>
                         <i className={`bi ${stat.icon} fs-4 text-${stat.color}`}></i>
                       </div>
                       <h3 className="mb-1">{stat.value}</h3>
@@ -143,7 +146,7 @@ const stats = [
                 </div>
               ))}
             </div>
-                   <div className="row">  {error && <Alert
+                   <div className="row"> {error && <Alert
                                 tipoAlerta="alert-danger"
                                 texto={error}
                                 
@@ -151,33 +154,37 @@ const stats = [
             {mensaje && <Alert
                                 tipoAlerta={tipo}
                                 texto={mensaje}
-                            />}     
-                            </div>
-          
+                            />}                </div>
+           
+
                             <div className="row">
-                               <div className="col-xs-12 col-md-12 col-lg-12 mt-4  m-auto">
+                                <div className="col-xs-12 col-md-12 col-lg-12 mt-4 m-auto">
                  <div className="card-body">
                   <div className="table-responsive">
+
                                     <div className="card-header d-flex justify-content-between align-items-center">
                   <div className="m-3">
                     <h5 className="mb-0 fs-4">
-                    <i className="bi bi-person-circle me-4"></i>
-                    Empleados
+                    <i className="bi bi-people me-4"></i>
+                    Clientes
                   </h5>
                   </div>
                   <div className="m-3 align-self-center">
-                   <ButtonPrimary
-                    to="/nuevoUsuario"
-                    label="Nuevo empleado"
+                 <ButtonPrimary
+                    to="/nuevoCliente"
+                    label="Nuevo cliente"
                 />
                   </div>
                 </div>
                       <table className="table table-hover mb-0">
                         <thead className="table-light">
-              <tr>
+                 <tr>
                             <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>DNI</th>
                             <th>Email</th>
-                            <th>Rol</th>
+                            <th>Celular</th>
+                            <th></th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -187,18 +194,23 @@ const stats = [
                                             {sinDatos === true && <tr><td><span className='m-2'>No hay datos para mostrar</span></td></tr>}
 
                               {
-                                users != null && users.map(user => (
-                                <tr key={user._id}>
-                                    <td>{user.nombre}</td>
-                                    <td>{user.email}</td>
-                                    <td>{user.rol}</td>
+                                clientes != null && clientes.map(c => (
+                                <tr key={c._id}>
+                                    <td>{c.nombre}</td>
+                                    <td>{c.apellido}</td>
+                                    <td>{c.dni}</td>
+                                    <td>{c.email}</td>
+                                    <td>{c.celular}</td>
                                     <td>
-                                    <button className='btn btn-primary' onClick={() => {navigate(`/actualizarUsuario/${user._id}`)}} >
+                                    <button className='btn btn-primary' onClick={() => {navigate(`/actualizarCliente/${c._id}`)}} >
                                         <i className='bi bi-pen'></i>
                                     </button>
                                     </td>
                                     <td>
-                                    <button className='btn btn-primary' onClick={() => handleDeleteClick(user._id)}><i className='bi bi-trash'></i></button>
+                                    <button className='btn btn-primary' onClick={() => handleDeleteClick(c._id)}><i className='bi bi-trash'></i></button>
+                                    </td>
+                                     <td>
+                                    <button className='btn btn-primary' onClick={() => {navigate(`/seguimientoCliente/${c._id}`)}}><i className='bi bi-search'></i></button>
                                     </td>
                                 </tr>
                                 ))
@@ -207,15 +219,16 @@ const stats = [
                     </tbody>
                 </table>
                 </div>
-                
                 </div>
+                 
                 </div>
-                              </div>           
+                            </div>
+              
                
-                                
 
         </div>
-              
+
+        
      {/* Modal de Confirmación */}
             <div 
                 className={`modal fade ${showModal ? 'show' : ''}`} 
@@ -237,7 +250,7 @@ const stats = [
                                 <i className="bi bi-exclamation-triangle text-warning" style={{ fontSize: '3rem' }}></i>
                             </div>
                             <p className="text-center">
-                                ¿Estás seguro de que deseas eliminar este empleado?
+                                ¿Estás seguro de que deseas eliminar este cliente?
                             </p>
                             <p className="text-center text-muted small">
                                 Esta acción no se puede deshacer.
@@ -271,9 +284,10 @@ const stats = [
                     onClick={handleCancelDelete}
                 ></div>
             )}
+              
         </>
         
     )
 };
 
-export default Users;
+export default Clientes;

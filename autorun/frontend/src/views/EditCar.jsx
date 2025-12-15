@@ -161,17 +161,14 @@ function EditCar() {
   };
     return (
         <>
-            <h2> Actualizar Auto {id}</h2>
-            <hr />
-
             <div className="container-fluid p-4">
             <div className="row justify-content-center">
-                <div className="col-12 col-lg-8">
+                <div className="col-12 col-lg-12">
                     <div className="card shadow-sm w-100">
                         <div className="card-header bg-primary text-white">
                             <h4 className="card-title mb-0">
                                 <i className="bi bi-car-front me-2"></i>
-                                Editar Vehículo {car.id}
+                                Editar Vehículo {id}
                             </h4>
                         </div>
                         <div className="card-body">
