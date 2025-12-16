@@ -4,7 +4,7 @@ import Alert from '../components/Alert';
 import UserForm from '../components/UserForm';
 
 function EditUser() {
-    const endpoint = 'http://127.0.0.1:3000/users'
+    const endpoint = import.meta.env.VITE_API_URL_USERS
     const [user, setUser] = useState({ nombre: '', email: '', password: '' })
     const { id } = useParams();
     const token = localStorage.getItem('token');

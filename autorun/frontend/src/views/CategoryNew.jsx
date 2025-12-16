@@ -6,7 +6,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 function CategoryNew()
 {
 const navigate = useNavigate();
-const endPoint = 'http://127.0.0.1:3000/categorias';
+const endPoint = import.meta.env.VITE_API_URL_CATEGORY;
 const token = localStorage.getItem('token');
 async function addCategory(categoryData){
 

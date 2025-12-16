@@ -3,8 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Alert from '../components/Alert';
 
 function PlanClienteNew() {
-    const endpoint = 'http://127.0.0.1:3000/planes';
-    const endpointAutos = 'http://localhost:3000/autos';
+    const endpoint = import.meta.env.VITE_API_URL_PLANS;
+    const endpointAutos = import.meta.env.VITE_API_URL_CARS;
     const { id } = useParams();
     const token = localStorage.getItem('token');
     const [error, setError] = useState(null);

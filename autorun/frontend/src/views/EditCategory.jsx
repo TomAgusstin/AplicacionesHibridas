@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import CategoryForm from '../components/CategoryForm';
 
 function EditCategory() {
-    const endpoint = 'http://127.0.0.1:3000/categorias'
+    const endpoint = import.meta.env.VITE_API_URL_CATEGORY;
     const [cat, setCategory] = useState({ titulo: '', estado: '' })
     const { id } = useParams();
     const token = localStorage.getItem('token');

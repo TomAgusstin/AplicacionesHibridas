@@ -7,8 +7,8 @@ function CarForm({
     onCancel = () => {},
     backUrl = '/usuarios'
 }) {
-    const endPoint = 'http://127.0.0.1:3000/autos';
-    const endPointCategorias = 'http://127.0.0.1:3000/categorias';
+    const endPoint = import.meta.env.VITE_API_URL_CARS;
+    const endPointCategorias = import.meta.env.VITE_API_URL_CATEGORY;
     
     const defaultCar = { 
         marca: '', 

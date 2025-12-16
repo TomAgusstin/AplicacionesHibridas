@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import ClienteForm from '../components/ClienteForm';
 function ClienteNew() {
     const token = localStorage.getItem('token');
-    const endPoint = 'http://127.0.0.1:3000/clientes';
+    const endPoint = import.meta.env.VITE_API_URL_CLIENTS;
     const [user, setCliente] = useState({ nombre: '', email: '', dni: '', email: '', celular: '' });
     const [error, setError] = useState(null);
     const navigate = useNavigate();

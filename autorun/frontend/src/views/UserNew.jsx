@@ -3,7 +3,7 @@ import UserForm from '../components/UserForm';
 import { useNavigate } from 'react-router-dom';
 function UserNew() {
     const token = localStorage.getItem('token');
-    const endPoint = 'http://127.0.0.1:3000/users';
+    const endPoint = import.meta.env.VITE_API_URL_USERS;
     const [user, setUser] = useState({ nombre: '', email: '', password: '' });
     const [error, setError] = useState(null);
     const navigate = useNavigate();

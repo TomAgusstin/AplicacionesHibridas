@@ -6,7 +6,7 @@ import ButtonPrimary from '../components/ButtonPrimary'
 import Alert from '../components/Alert'
 
 function Cars() {
-  const endpoint = 'http://localhost:3000/autos';
+  const endpoint = import.meta.env.VITE_API_URL_CARS;
 
   const [autos, setAutos] = useState([]);
   const [error, setError] = useState(null);

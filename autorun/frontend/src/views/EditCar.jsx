@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 
 function EditCar() {
-    const endpoint = 'http://127.0.0.1:3000/autos';
-    const endPointCategorias = 'http://127.0.0.1:3000/categorias';
+    const endpoint = import.meta.env.VITE_API_URL_CARS;
+    const endPointCategorias = import.meta.env.VITE_API_URL_CATEGORY;
     const [car, setCar] = useState({ marca: '', modelo: '', categoriaId: [], infoPrecio: [], alicuota: '', img: '', alt: '' })
     const [cat, setCategorias] = useState([]);
     const { id } = useParams();

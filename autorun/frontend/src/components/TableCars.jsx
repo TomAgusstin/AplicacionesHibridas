@@ -3,7 +3,7 @@ import { useState } from "react";
 
 function TableCars(autos) {
     const navigate = useNavigate();
-    const endPoint = 'http://127.0.0.1:3000/autos';
+    const endPoint = import.meta.env.VITE_API_URL_CARS;
     const token = localStorage.getItem('token');
       const [showModal, setShowModal] = useState(false);
     const [autoToDelete, setAutoToDelete] = useState(null);

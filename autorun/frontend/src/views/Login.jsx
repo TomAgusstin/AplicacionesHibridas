@@ -5,7 +5,7 @@ import Alert from '../components/Alert';
 
 function Login() {
 
-    const endPoint = 'http://127.0.0.1:3000/users';
+    const endPoint = import.meta.env.VITE_API_URL_USERS;
     const [user, setUser] = useState({ email: '', password: '' });
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();

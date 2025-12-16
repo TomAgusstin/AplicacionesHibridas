@@ -4,7 +4,7 @@ import Alert from '../components/Alert';
 import ClienteForm from '../components/ClienteForm';
 
 function EditCliente() {
-    const endpoint = 'http://127.0.0.1:3000/clientes'
+    const endpoint = import.meta.env.VITE_API_URL_CLIENTS
     const [user, setCliente] = useState({ nombre: '', email: '', dni: '', email: '', celular: '' });
     const { id } = useParams();
     const token = localStorage.getItem('token');

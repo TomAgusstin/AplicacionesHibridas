@@ -3,8 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Alert from '../components/Alert';
 
 function SeguimientoCliente() {
-    const endpoint = 'http://127.0.0.1:3000/planes';
-    const endpointAutos = 'http://localhost:3000/autos';
+    const endpoint = import.meta.env.VITE_API_URL_PLANS;
+    const endpointAutos = import.meta.env.VITE_API_URL_CARS;
 
     const [cliente, setCliente] = useState({ nombre: '', apellido: '', dni: '', email: '', celular: '' });
     const [planes, setPlanes] = useState([]); const { id } = useParams();

@@ -10,7 +10,7 @@ import Alert from '../components/Alert';
 function Clientes()
 {
 
-const endPoint = 'http://127.0.0.1:3000/clientes';
+const endPoint = import.meta.env.VITE_API_URL_CLIENTS;
 const [clientes, setClientes] = useState([]);
 const navigate = useNavigate();
 const {logout} = useContext(AuthContext);

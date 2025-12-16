@@ -5,7 +5,7 @@ import Table from '../components/Table'
 function Home() {
 
     const [autos, setAutos] = useState([]);
-    const endpoint = 'http://localhost:3000/autos';
+    const endpoint = import.meta.env.VITE_API_URL_CARS;
     async function getCars() {
         try {
             const response = await fetch(endpoint);

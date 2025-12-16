@@ -6,7 +6,7 @@ import Alert from '../components/Alert';
 
 function Category() {
 
-    const endPoint = 'http://127.0.0.1:3000/categorias';
+    const endPoint = import.meta.env.VITE_API_URL_CATEGORY;
     const [cat, setCat] = useState([]);
     // const [user, setUser] = useState({nombre: '', email: '', password:''});
     const navigate = useNavigate();

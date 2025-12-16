@@ -9,7 +9,7 @@ import Alert from '../components/Alert';
 
 function Dashboard() {
 
-  const endPoint = 'http://127.0.0.1:3000/users';
+  const endPoint = import.meta.env.VITE_API_URL_USERS;
   const [users, setUsers] = useState([]);
   // const [user, setUser] = useState({nombre: '', email: '', password:''});
   const navigate = useNavigate();
