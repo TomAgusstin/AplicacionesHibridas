@@ -78,8 +78,9 @@ app.use(cors()); // Vercel a veces requiere configuración extra de CORS en verc
 // EN VERCEL: No uses express para servir estáticos (imágenes, css). 
 // Pon esos archivos en la carpeta 'public' en la raíz de tu proyecto y Vercel los sirve automáticamente.
 
-app.get('/', (req, res) => {
-    res.send("API Funcionando - MasAuto ERP");
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
 });
 
 routerAPI(app);
