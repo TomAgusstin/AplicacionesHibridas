@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { Link } from 'react-router-dom';
 function CategoryForm({ onSubmit, initialData = { titulo: '', estado: '' }, buttonText = 'Agregar categoria', isEditing, loading }) {
     
     const [cat, setCat] = useState(initialData);
