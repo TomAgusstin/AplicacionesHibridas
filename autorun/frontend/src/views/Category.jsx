@@ -82,7 +82,7 @@ const handleDeleteClick = (id) => {
 
     const handleConfirmDelete = () => {
         if (categoryToDelete) {
-            deleteUser(categoryToDelete);
+            deleteCat(categoryToDelete);
         }
         setShowModal(false);
         setCategoryToDelete(null);
