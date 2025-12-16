@@ -386,7 +386,7 @@ function CarForm({
                                 <div className="row">
                                     <div className="col-12">
                                         <hr />
-                                        <NavLink to={backUrl} type='button' className='btn btn-secondary mt-4 float-start'>
+                                        <NavLink to='/autos' type='button' className='btn btn-secondary mt-4 float-start'>
                                             Volver
                                         </NavLink>
                                         <div className="d-flex justify-content-end gap-2">

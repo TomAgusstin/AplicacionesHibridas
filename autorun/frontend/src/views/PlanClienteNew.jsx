@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, NavLink } from 'react-router-dom';
 import Alert from '../components/Alert';
 
 function PlanClienteNew() {
@@ -201,9 +201,9 @@ function PlanClienteNew() {
                                 <div className="col-12">
                                     <hr />
                                     <div className="d-flex justify-content-between">
-                                     <Link to={backUrl} type='button' className='btn btn-secondary mt-4 float-start'>
+                                     <NavLink to='/clientes' type='button' className='btn btn-secondary mt-4 float-start'>
                                                                               Volver
-                                                                          </Link>
+                                                                          </NavLink>
 
                                         <button onClick={() => handleAceptar()} className="btn btn-primary px-4">
 

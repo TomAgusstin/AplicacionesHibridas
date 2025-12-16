@@ -176,7 +176,7 @@ function SeguimientoCliente() {
                                 <div className="col-12">
                                     <hr />
                                     <div className="d-flex justify-content-between">
-                                    <NavLink to={backUrl} type='button' className='btn btn-secondary mt-4 float-start'>
+                                    <NavLink to='/clientes' type='button' className='btn btn-secondary mt-4 float-start'>
                                                                              Volver
                                                                          </NavLink>
 

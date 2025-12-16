@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Navigate, useNavigate, Link } from 'react-router-dom';
+import { Navigate, useNavigate, NavLink } from 'react-router-dom';
 
 function CarNew() {
     const endPoint = import.meta.env.VITE_API_URL_CARS;
@@ -479,9 +479,9 @@ function CarNew() {
                                         <hr />
      
                                         <div className="gap-2">
-                                      <Link to={backUrl} type='button' className='btn btn-secondary mt-4 float-start'>
+                                      <NavLink to='/autos' type='button' className='btn btn-secondary mt-4 float-start'>
                                                                                Volver
-                                                                           </Link>
+                                                                           </NavLink>
                             
                                             <button 
                                                 type="submit" 
