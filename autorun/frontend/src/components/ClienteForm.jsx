@@ -134,10 +134,9 @@ const ClienteForm = ({
                                 <div className="col-12">
                                     <hr />
                                     <div className="d-flex justify-content-between">
-                                        <a href="/clientes" className="btn btn-secondary">
-                                            <i className="bi bi-arrow-left me-2"></i>
-                                            Volver
-                                        </a>
+                                   <Link to={backUrl} type='button' className='btn btn-secondary mt-4 float-start'>
+                                                                            Volver
+                                                                        </Link>
 
                                         <button type="submit" className="btn btn-primary px-4" disabled={loading}>
                                             {loading ? (

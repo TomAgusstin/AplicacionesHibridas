@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom';
 
 function CarForm({ 
     mode = 'create', // 'create' o 'edit'
@@ -385,9 +386,9 @@ function CarForm({
                                 <div className="row">
                                     <div className="col-12">
                                         <hr />
-                                        <a href={backUrl} type='button' className='btn btn-secondary mt-4 float-start'>
+                                        <Link to={backUrl} type='button' className='btn btn-secondary mt-4 float-start'>
                                             Volver
-                                        </a>
+                                        </Link>
                                         <div className="d-flex justify-content-end gap-2">
                                             {!isEditMode && (
                                                 <button 

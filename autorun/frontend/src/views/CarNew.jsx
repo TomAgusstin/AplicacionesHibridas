@@ -479,9 +479,9 @@ function CarNew() {
                                         <hr />
      
                                         <div className="gap-2">
-                                        <a href='/autos' type='button' className='btn btn-secondary float-start'>
-                    Volver
-                </a>
+                                      <Link to={backUrl} type='button' className='btn btn-secondary mt-4 float-start'>
+                                                                               Volver
+                                                                           </Link>
                             
                                             <button 
                                                 type="submit" 
