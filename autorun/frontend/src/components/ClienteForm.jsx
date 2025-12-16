@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 const ClienteForm = ({ 
     user, 
     handlerChange, 
@@ -134,9 +134,9 @@ const ClienteForm = ({
                                 <div className="col-12">
                                     <hr />
                                     <div className="d-flex justify-content-between">
-                                   <Link to={backUrl} type='button' className='btn btn-secondary mt-4 float-start'>
+                                   <NavLink to={backUrl} type='button' className='btn btn-secondary mt-4 float-start'>
                                                                             Volver
-                                                                        </Link>
+                                                                        </NavLink>
 
                                         <button type="submit" className="btn btn-primary px-4" disabled={loading}>
                                             {loading ? (

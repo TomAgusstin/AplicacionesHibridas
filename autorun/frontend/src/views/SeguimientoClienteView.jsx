@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, NavLink } from 'react-router-dom';
 import Alert from '../components/Alert';
 
 function SeguimientoCliente() {
@@ -176,9 +176,9 @@ function SeguimientoCliente() {
                                 <div className="col-12">
                                     <hr />
                                     <div className="d-flex justify-content-between">
-                                    <Link to={backUrl} type='button' className='btn btn-secondary mt-4 float-start'>
+                                    <NavLink to={backUrl} type='button' className='btn btn-secondary mt-4 float-start'>
                                                                              Volver
-                                                                         </Link>
+                                                                         </NavLink>
 
                                         <button onClick={() => {navigate(`/nuevoPlan/${cliente._id}`)}} className="btn btn-primary px-4">
 
